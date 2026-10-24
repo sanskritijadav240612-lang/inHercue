@@ -7,6 +7,11 @@ const config = require('./src/config/env');
 const { connectDB, disconnectDB } = require('./src/config/db');
 
 async function startServer() {
+  // Enforce environment validation before starting
+  if (typeof config.validateEnv === 'function') {
+    config.validateEnv(config);
+  }
+
   // Connect to MongoDB if URI is configured (optional for foundation stage)
   await connectDB({ isOptional: true });
 

@@ -15,8 +15,25 @@ function notFoundHandler(req, res, next) {
   });
 }
 
-// Global 500 / unexpected error handler
+// Global error handler
 function errorHandler(err, req, res, next) {
+  // Handle MongoDB duplicate key error (code 11000 race condition on unique indexes)
+  if (err.code === 11000) {
+    return res.status(409).json({
+      success: false,
+      error: {
+        code: 'DUPLICATE_EMAIL',
+        message: 'An account with this email address already exists.',
+        details: [
+          {
+            field: 'email',
+            issue: 'Email address is already registered.'
+          }
+        ]
+      }
+    });
+  }
+
   const statusCode = err.status || err.statusCode || 500;
   const isDev = process.env.NODE_ENV === 'development';
 

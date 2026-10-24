@@ -1,8 +1,14 @@
 # HerSignal API Contract & Specification
 
 > **Status Notice:**
-> **CURRENT STATUS: ALL ENDPOINTS ARE PROPOSED / NOT IMPLEMENTED.**
-> No endpoints described in this document are currently running or deployed. All endpoint specifications, request schemas, and responses serve as a design contract prior to backend implementation. None of the medical or safety guidance content in these examples has been clinically reviewed or validated.
+> **IMPLEMENTED ENDPOINTS:**
+> - `GET /api/v1/health` (Service health check)
+> - `POST /api/v1/auth/register` (User registration)
+> - `POST /api/v1/auth/login` (User login)
+> - `GET /api/v1/auth/me` (Authenticated current user profile)
+>
+> **ALL OTHER MODULES (Modules 2 through 9) REMAIN PROPOSED / NOT IMPLEMENTED.**
+> None of the clinical or safety guidance content in those proposals has been clinically reviewed or validated.
 
 ---
 
@@ -57,10 +63,20 @@ All error responses (HTTP 400, 401, 403, 404, 422, 500) adhere to this schema:
 
 ---
 
+### Foundation: Health Check
+
+#### 0.1 Service Health Check
+- **Status:** `[IMPLEMENTED]`
+- **Method & Path:** `GET /api/v1/health`
+- **Access Level:** Public
+- **Description:** Returns service operational status and database readiness without leaking credentials.
+
+---
+
 ### Module 1: Authentication & Onboarding
 
 #### 1.1 Register New User
-- **Status:** `[PROPOSED / NOT IMPLEMENTED]`
+- **Status:** `[IMPLEMENTED]`
 - **Method & Path:** `POST /api/v1/auth/register`
 - **Access Level:** Public
 - **Description:** Registers a new user account with hashed password and initial profile.
@@ -95,7 +111,7 @@ All error responses (HTTP 400, 401, 403, 404, 422, 500) adhere to this schema:
 - **Error Codes:** `400 Bad Request` (duplicate email), `422 Unprocessable Entity` (validation failure).
 
 #### 1.2 User Login
-- **Status:** `[PROPOSED / NOT IMPLEMENTED]`
+- **Status:** `[IMPLEMENTED]`
 - **Method & Path:** `POST /api/v1/auth/login`
 - **Access Level:** Public
 - **Request Example:**
@@ -122,7 +138,7 @@ All error responses (HTTP 400, 401, 403, 404, 422, 500) adhere to this schema:
 - **Error Codes:** `401 Unauthorized` (invalid credentials), `422 Unprocessable Entity`.
 
 #### 1.3 Get Current Authenticated User Profile
-- **Status:** `[PROPOSED / NOT IMPLEMENTED]`
+- **Status:** `[IMPLEMENTED]`
 - **Method & Path:** `GET /api/v1/auth/me`
 - **Access Level:** Authenticated (Bearer Token)
 - **Response Example (`200 OK`):**
