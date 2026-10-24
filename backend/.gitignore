@@ -1,0 +1,12 @@
+# Backend-specific ignore rules
+node_modules/
+.env
+.env.local
+.env.*.local
+*.env
+logs/
+*.log
+npm-debug.log*
+
+# Preserve example environment template
+!.env.example

@@ -1,0 +1,30 @@
+{
+  "name": "hersignal-backend",
+  "version": "1.0.0",
+  "description": "HerSignal - Women's Healthcare & Wellness Backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/**/*.test.js"
+  },
+  "keywords": [
+    "hersignal",
+    "womens-health",
+    "wellness",
+    "express",
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "Sanskriti",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
+}
