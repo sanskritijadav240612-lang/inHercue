@@ -83,13 +83,16 @@ class SecondaryButton extends StatelessWidget {
                       leadingIcon!,
                       const SizedBox(width: 10.0),
                     ],
-                    Text(
-                      label,
-                      style: GoogleFonts.dmSans(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                        color: effectiveColor,
-                        letterSpacing: 0.3,
+                    Flexible(
+                      child: Text(
+                        label,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                          color: effectiveColor,
+                          letterSpacing: 0.3,
+                        ),
                       ),
                     ),
                     if (trailingIcon != null) ...[

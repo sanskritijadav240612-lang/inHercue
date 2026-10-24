@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../screens/alerts_screen.dart';
 import '../../screens/auth_screen.dart';
+import '../../screens/checkin_screen.dart';
+import '../../screens/community_screen.dart';
+import '../../screens/detail_page_screen.dart';
 import '../../screens/home_dashboard_screen.dart';
+import '../../screens/hub_screen.dart';
+import '../../screens/mental_wellness_screen.dart';
+import '../../screens/myth_quiz_screen.dart';
+import '../../screens/new_entry_screen.dart';
+import '../../screens/period_tracker_screen.dart';
 import '../../screens/profile_setup_screen.dart';
+import '../../screens/reports_screen.dart';
+import '../../screens/self_care_screen.dart';
+import '../../screens/symptom_tracker_screen.dart';
+import '../../screens/urgent_screen.dart';
 import '../../screens/welcome_screen.dart';
 import '../../state/auth_state.dart';
 import '../theme/app_colors.dart';
@@ -48,7 +61,6 @@ class AppRoutes {
   static const String reports = '/reports';
 
   /// Standard route table for the application.
-  /// Destination screens are integrated as they are completed.
   static Map<String, WidgetBuilder> get routes => getRoutes();
 
   /// Builds the route table optionally injecting [AuthState] into screens.
@@ -58,94 +70,28 @@ class AppRoutes {
       auth: (context) => AuthScreen(authState: authState),
       profileSetup: (context) => const ProfileSetupScreen(),
       home: (context) => HomeDashboardScreen(authState: authState),
-      urgent: (context) => const DestinationPlaceholderScreen(
-            title: 'Urgent Help',
-            routeName: urgent,
-          ),
-      checkin: (context) => const DestinationPlaceholderScreen(
-            title: 'Daily Check-In',
-            routeName: checkin,
-          ),
-      physical: (context) => const DestinationPlaceholderScreen(
-            title: 'Physical Health',
-            routeName: physical,
-          ),
-      mental: (context) => const DestinationPlaceholderScreen(
-            title: 'Mental Wellness',
-            routeName: mental,
-          ),
-      period: (context) => const DestinationPlaceholderScreen(
-            title: 'Period Tracker',
-            routeName: period,
-          ),
-      patterns: (context) => const DestinationPlaceholderScreen(
-            title: 'Health Patterns',
-            routeName: patterns,
-          ),
-      selfcare: (context) => const DestinationPlaceholderScreen(
-            title: 'Self-Care Studio',
-            routeName: selfcare,
-          ),
-      guidance: (context) => const DestinationPlaceholderScreen(
-            title: 'Wellness Guidance',
-            routeName: guidance,
-          ),
-      myths: (context) => const DestinationPlaceholderScreen(
-            title: 'Myth vs Fact',
-            routeName: myths,
-          ),
-      passport: (context) => const DestinationPlaceholderScreen(
-            title: 'Health Passport',
-            routeName: passport,
-          ),
-      doctors: (context) => const DestinationPlaceholderScreen(
-            title: 'Find a Doctor',
-            routeName: doctors,
-          ),
-      summary: (context) => const DestinationPlaceholderScreen(
-            title: 'Doctor Summary',
-            routeName: summary,
-          ),
-      reminders: (context) => const DestinationPlaceholderScreen(
-            title: 'Reminders',
-            routeName: reminders,
-          ),
-      settings: (context) => const DestinationPlaceholderScreen(
-            title: 'Settings',
-            routeName: settings,
-          ),
-      community: (context) => const DestinationPlaceholderScreen(
-            title: 'Community',
-            routeName: community,
-          ),
-      records: (context) => const DestinationPlaceholderScreen(
-            title: 'Health History',
-            routeName: records,
-          ),
-      learn: (context) => const DestinationPlaceholderScreen(
-            title: 'Learn',
-            routeName: learn,
-          ),
-      profile: (context) => const DestinationPlaceholderScreen(
-            title: 'Profile & Settings',
-            routeName: profile,
-          ),
-      entry: (context) => const DestinationPlaceholderScreen(
-            title: 'New Entry',
-            routeName: entry,
-          ),
-      symptoms: (context) => const DestinationPlaceholderScreen(
-            title: 'Symptom Tracker',
-            routeName: symptoms,
-          ),
-      alerts: (context) => const DestinationPlaceholderScreen(
-            title: 'Alerts',
-            routeName: alerts,
-          ),
-      reports: (context) => const DestinationPlaceholderScreen(
-            title: 'Health Reports',
-            routeName: reports,
-          ),
+      urgent: (context) => const UrgentScreen(),
+      checkin: (context) => const CheckinScreen(),
+      physical: (context) => const DetailPageScreen(type: DetailType.physical),
+      mental: (context) => const MentalWellnessScreen(),
+      period: (context) => const PeriodTrackerScreen(),
+      patterns: (context) => const DetailPageScreen(type: DetailType.patterns),
+      selfcare: (context) => const SelfCareScreen(),
+      guidance: (context) => const DetailPageScreen(type: DetailType.guidance),
+      myths: (context) => const MythQuizScreen(),
+      passport: (context) => const DetailPageScreen(type: DetailType.passport),
+      doctors: (context) => const DetailPageScreen(type: DetailType.doctors),
+      summary: (context) => const DetailPageScreen(type: DetailType.summary),
+      reminders: (context) => const DetailPageScreen(type: DetailType.reminders),
+      settings: (context) => const DetailPageScreen(type: DetailType.settings),
+      community: (context) => const CommunityScreen(),
+      records: (context) => const HubScreen(type: HubType.records),
+      learn: (context) => const HubScreen(type: HubType.learn),
+      profile: (context) => const HubScreen(type: HubType.profile),
+      entry: (context) => const NewEntryScreen(),
+      symptoms: (context) => const SymptomTrackerScreen(),
+      alerts: (context) => const AlertsScreen(),
+      reports: (context) => const ReportsScreen(),
     };
   }
 }
