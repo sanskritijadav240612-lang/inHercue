@@ -37,6 +37,19 @@ function validateEnv(cfg = config) {
         '[Security Error] In production (NODE_ENV=production), JWT_SECRET must be explicitly defined with a secure value and cannot use development placeholders.'
       );
     }
+
+    const cors = cfg.corsOrigin;
+    if (
+      !cors ||
+      typeof cors !== 'string' ||
+      cors.trim() === '' ||
+      cors.trim() === '*' ||
+      cors.split(',').map(s => s.trim()).includes('*')
+    ) {
+      throw new Error(
+        '[Security Error] In production (NODE_ENV=production), CORS_ORIGIN must be explicitly set to a trusted domain allowlist and cannot be empty or wildcard (*).'
+      );
+    }
   }
 }
 

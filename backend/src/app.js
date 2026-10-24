@@ -4,14 +4,14 @@
  */
 const express = require('express');
 const cors = require('cors');
-const config = require('./config/env');
+const { createCorsOptions } = require('./config/cors');
 const apiRoutes = require('./routes/api');
 const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
 // Core Middleware
-app.use(cors({ origin: config.corsOrigin }));
+app.use(cors(createCorsOptions()));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
