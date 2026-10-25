@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../core/theme/app_colors.dart';
 
 /// The official primary button for inHercue.
@@ -135,7 +136,10 @@ class PrimaryButton extends StatelessWidget {
             splashColor: Colors.white.withValues(alpha: 0.15),
             highlightColor: AppColors.plumHover,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 14.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 14.0,
+              ),
               child: Center(child: content),
             ),
           ),

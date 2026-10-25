@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'app_colors.dart';
 
 /// AppTheme configuration for inHercue.
@@ -55,7 +56,10 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 14.0,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(13.0),
           borderSide: const BorderSide(color: AppColors.line, width: 1.0),
@@ -72,10 +76,7 @@ class AppTheme {
           borderRadius: BorderRadius.circular(13.0),
           borderSide: const BorderSide(color: AppColors.danger, width: 1.0),
         ),
-        hintStyle: const TextStyle(
-          color: AppColors.muted,
-          fontSize: 14.0,
-        ),
+        hintStyle: const TextStyle(color: AppColors.muted, fontSize: 14.0),
       ),
 
       // Divider theme

@@ -61,6 +61,11 @@ class ApiConfig {
   static const String registerEndpoint = '/auth/register';
   static const String loginEndpoint = '/auth/login';
   static const String meEndpoint = '/auth/me';
+  static const String passportEndpoint = '/passport';
+  static const String symptomsCheckinEndpoint = '/symptoms/check-in';
+  static const String symptomsHistoryEndpoint = '/symptoms/history';
+  static const String symptomsLatestEndpoint = '/symptoms/latest';
+  static const String safetyTriageEndpoint = '/safety/triage';
 
   // Timeouts
   static const Duration connectTimeout = Duration(seconds: 10);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../core/theme/app_colors.dart';
 import 'in_hercue_icon.dart';
 
@@ -33,8 +34,7 @@ class UrgentCard extends StatelessWidget {
   const UrgentCard({
     super.key,
     this.title = 'Need medical help right now?',
-    this.description =
-        'Do not wait for your next check-in if symptoms are severe or alarming.',
+    this.description = 'Do not wait for your next check-in if symptoms are severe or alarming.',
     this.buttonLabel = 'Get urgent help',
     required this.onUrgent,
     this.margin = const EdgeInsets.only(top: 28.0, bottom: 10.0),
@@ -47,10 +47,7 @@ class UrgentCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.urgentBg,
         borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(
-          color: AppColors.urgentBorder,
-          width: 1.0,
-        ),
+        border: Border.all(color: AppColors.urgentBorder, width: 1.0),
       ),
       padding: const EdgeInsets.all(22.0),
       child: LayoutBuilder(
@@ -144,10 +141,7 @@ class UrgentCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 18.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: buttonWidget,
-                ),
+                SizedBox(width: double.infinity, child: buttonWidget),
               ],
             );
           }

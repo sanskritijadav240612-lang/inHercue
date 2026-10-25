@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../core/theme/app_colors.dart';
 
 /// The official secondary button for inHercue.
@@ -58,10 +59,7 @@ class SecondaryButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: effectiveColor,
-            width: 1.0,
-          ),
+          border: Border.all(color: effectiveColor, width: 1.0),
         ),
         child: Material(
           color: Colors.transparent,
@@ -72,7 +70,10 @@ class SecondaryButton extends StatelessWidget {
             splashColor: AppColors.plum.withValues(alpha: 0.08),
             highlightColor: AppColors.plum.withValues(alpha: 0.04),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 14.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 14.0,
+              ),
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

@@ -15,7 +15,10 @@ void main() {
 
     test('Custom baseUrl override takes precedence', () {
       ApiConfig.setCustomBaseUrl('https://api.inhercue.example.com/api/v1');
-      expect(ApiConfig.baseUrl, equals('https://api.inhercue.example.com/api/v1'));
+      expect(
+        ApiConfig.baseUrl,
+        equals('https://api.inhercue.example.com/api/v1'),
+      );
     });
 
     test('Endpoint constants have leading slashes', () {

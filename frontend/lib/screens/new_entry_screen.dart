@@ -19,10 +19,7 @@ import '../widgets/secondary_button.dart';
 class NewEntryScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const NewEntryScreen({
-    super.key,
-    this.onBack,
-  });
+  const NewEntryScreen({super.key, this.onBack});
 
   @override
   State<NewEntryScreen> createState() => _NewEntryScreenState();
@@ -33,7 +30,9 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
   String _saved = '';
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController(text: '2025-05-26');
+  final TextEditingController _dateController = TextEditingController(
+    text: '2025-05-26',
+  );
 
   static const List<String> _entryTypes = [
     'Daily Check-in',
@@ -109,7 +108,10 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 600.0),
@@ -147,26 +149,37 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: InkWell(
-                                  onTap: () => setState(() => _selectedType = type),
+                                  onTap: () =>
+                                      setState(() => _selectedType = type),
                                   borderRadius: BorderRadius.circular(15.0),
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 16.0),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 18.0,
+                                      vertical: 16.0,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: isSelected ? AppColors.roseLight : AppColors.paper,
+                                      color: isSelected
+                                          ? AppColors.roseLight
+                                          : AppColors.paper,
                                       borderRadius: BorderRadius.circular(15.0),
                                       border: Border.all(
-                                        color: isSelected ? AppColors.rose : AppColors.line,
+                                        color: isSelected
+                                            ? AppColors.rose
+                                            : AppColors.line,
                                         width: 1.0,
                                       ),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           type,
                                           style: GoogleFonts.dmSans(
                                             fontSize: 15.0,
-                                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                                            fontWeight: isSelected
+                                                ? FontWeight.w600
+                                                : FontWeight.w400,
                                             color: AppColors.ink,
                                           ),
                                         ),
@@ -174,17 +187,24 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                                           width: 24.0,
                                           height: 24.0,
                                           decoration: BoxDecoration(
-                                            color: isSelected ? AppColors.plum : Colors.transparent,
+                                            color: isSelected
+                                                ? AppColors.plum
+                                                : Colors.transparent,
                                             shape: BoxShape.circle,
                                             border: Border.all(
-                                              color: isSelected ? AppColors.plum : AppColors.line,
+                                              color: isSelected
+                                                  ? AppColors.plum
+                                                  : AppColors.line,
                                             ),
                                           ),
                                           child: Center(
                                             child: isSelected
                                                 ? const Text(
                                                     '✓',
-                                                    style: TextStyle(color: Colors.white, fontSize: 13.0),
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 13.0,
+                                                    ),
                                                   )
                                                 : null,
                                           ),
@@ -199,7 +219,13 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
 
                           if (_selectedType == 'Health Note') ...[
                             const SizedBox(height: 16.0),
-                            Text('Title', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                            Text(
+                              'Title',
+                              style: AppTextStyles.bodySmall.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.plum,
+                              ),
+                            ),
                             const SizedBox(height: 6.0),
                             TextFormField(
                               controller: _titleController,
@@ -207,12 +233,23 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                                 hintText: 'What is this note about?',
                                 fillColor: Colors.white,
                                 filled: true,
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(13.0),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.line,
+                                  ),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 14.0),
 
-                            Text('Note', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                            Text(
+                              'Note',
+                              style: AppTextStyles.bodySmall.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.plum,
+                              ),
+                            ),
                             const SizedBox(height: 6.0),
                             TextFormField(
                               controller: _noteController,
@@ -221,12 +258,23 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                                 hintText: 'Write your private health note…',
                                 fillColor: Colors.white,
                                 filled: true,
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(13.0),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.line,
+                                  ),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 14.0),
 
-                            Text('Date', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                            Text(
+                              'Date',
+                              style: AppTextStyles.bodySmall.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.plum,
+                              ),
+                            ),
                             const SizedBox(height: 6.0),
                             TextFormField(
                               controller: _dateController,
@@ -234,7 +282,12 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                                 hintText: 'YYYY-MM-DD',
                                 fillColor: Colors.white,
                                 filled: true,
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(13.0),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.line,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -252,8 +305,12 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                               Expanded(
                                 flex: 2,
                                 child: PrimaryButton(
-                                  label: _selectedType == 'Health Note' ? 'Save note' : 'Continue',
-                                  onPressed: _selectedType.isNotEmpty ? () => _handleContinue(context) : null,
+                                  label: _selectedType == 'Health Note'
+                                      ? 'Save note'
+                                      : 'Continue',
+                                  onPressed: _selectedType.isNotEmpty
+                                      ? () => _handleContinue(context)
+                                      : null,
                                 ),
                               ),
                             ],
@@ -271,7 +328,10 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                               child: const Center(
                                 child: Text(
                                   '✓',
-                                  style: TextStyle(fontSize: 32.0, color: AppColors.plum),
+                                  style: TextStyle(
+                                    fontSize: 32.0,
+                                    color: AppColors.plum,
+                                  ),
                                 ),
                               ),
                             ),
@@ -317,7 +377,9 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
                           const SizedBox(height: 12.0),
                           PrimaryButton(
                             label: 'View saved entry',
-                            onPressed: () => Navigator.of(context).pushReplacementNamed(AppRoutes.records),
+                            onPressed: () =>
+                                Navigator.of(context)
+                                    .pushReplacementNamed(AppRoutes.records),
                           ),
                         ],
 
@@ -331,7 +393,8 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
 
             InHercueBottomNav(
               currentDestination: InHercueNavDestination.newEntry,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
             ),
           ],
         ),

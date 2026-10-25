@@ -78,16 +78,26 @@ void main() {
       MaterialApp(
         onGenerateRoute: (settings) {
           if (settings.name == AppRoutes.welcome) {
-            return MaterialPageRoute(builder: (_) => const Scaffold(body: Text('Welcome Screen')));
+            return MaterialPageRoute(
+              builder: (_) => const Scaffold(body: Text('Welcome Screen')),
+            );
           }
           if (settings.name == AppRoutes.profileSetup) {
-            return MaterialPageRoute(builder: (_) => const Scaffold(body: Text('Profile Setup Screen')));
+            return MaterialPageRoute(
+              builder: (_) =>
+                  const Scaffold(body: Text('Profile Setup Screen')),
+            );
           }
           if (settings.name == AppRoutes.home) {
-            return MaterialPageRoute(builder: (_) => const Scaffold(body: Text('Home Dashboard Screen')));
+            return MaterialPageRoute(
+              builder: (_) =>
+                  const Scaffold(body: Text('Home Dashboard Screen')),
+            );
           }
           if (settings.name == AppRoutes.urgent) {
-            return MaterialPageRoute(builder: (_) => const Scaffold(body: Text('Urgent Screen')));
+            return MaterialPageRoute(
+              builder: (_) => const Scaffold(body: Text('Urgent Screen')),
+            );
           }
           return null;
         },
@@ -104,7 +114,9 @@ void main() {
   }
 
   group('AuthScreen UI & Mode Toggle Tests', () {
-    testWidgets('renders register mode by default matching Figma copy', (tester) async {
+    testWidgets('renders register mode by default matching Figma copy', (
+      tester,
+    ) async {
       final fakeService = FakeAuthApiService();
       final authState = AuthState(authService: fakeService);
 
@@ -113,7 +125,10 @@ void main() {
       // Register mode kicker, title, and description
       expect(find.text('YOUR SPACE, YOUR PACE'), findsOneWidget);
       expect(find.text('Create your account'), findsOneWidget);
-      expect(find.text('A private place to understand your whole health.'), findsOneWidget);
+      expect(
+        find.text('A private place to understand your whole health.'),
+        findsOneWidget,
+      );
 
       // Name field exists
       expect(find.text('First name'), findsOneWidget);
@@ -127,7 +142,9 @@ void main() {
       expect(find.text('Already have an account? Log in'), findsOneWidget);
     });
 
-    testWidgets('toggles to login mode when toggle button is tapped', (tester) async {
+    testWidgets('toggles to login mode when toggle button is tapped', (
+      tester,
+    ) async {
       final fakeService = FakeAuthApiService();
       final authState = AuthState(authService: fakeService);
 
@@ -155,7 +172,9 @@ void main() {
   });
 
   group('AuthScreen Client Validation Tests', () {
-    testWidgets('displays error on empty name during registration', (tester) async {
+    testWidgets('displays error on empty name during registration', (
+      tester,
+    ) async {
       final fakeService = FakeAuthApiService();
       final authState = AuthState(authService: fakeService);
 
@@ -189,27 +208,43 @@ void main() {
       expect(fakeService.registerCallCount, equals(0));
     });
 
-    testWidgets('displays error when registration password lacks special character or number', (tester) async {
-      final fakeService = FakeAuthApiService();
-      final authState = AuthState(authService: fakeService);
+    testWidgets(
+      'displays error when registration password lacks special character or number',
+      (tester) async {
+        final fakeService = FakeAuthApiService();
+        final authState = AuthState(authService: fakeService);
 
-      await pumpAuthScreen(tester, authState: authState);
+        await pumpAuthScreen(tester, authState: authState);
 
-      await tester.enterText(find.byType(TextFormField).at(0), 'Maya');
-      await tester.enterText(find.byType(TextFormField).at(1), 'maya@example.com');
-      await tester.enterText(find.byType(TextFormField).at(2), 'simplepassword');
+        await tester.enterText(find.byType(TextFormField).at(0), 'Maya');
+        await tester.enterText(
+          find.byType(TextFormField).at(1),
+          'maya@example.com',
+        );
+        await tester.enterText(
+          find.byType(TextFormField).at(2),
+          'simplepassword',
+        );
 
-      await tester.ensureVisible(find.text('Create account'));
-      await tester.tap(find.text('Create account'));
-      await tester.pumpAndSettle();
+        await tester.ensureVisible(find.text('Create account'));
+        await tester.tap(find.text('Create account'));
+        await tester.pumpAndSettle();
 
-      expect(find.textContaining('contain at least one number and one special character'), findsOneWidget);
-      expect(fakeService.registerCallCount, equals(0));
-    });
+        expect(
+          find.textContaining(
+            'contain at least one number and one special character',
+          ),
+          findsOneWidget,
+        );
+        expect(fakeService.registerCallCount, equals(0));
+      },
+    );
   });
 
   group('AuthScreen API Integration & Navigation Tests', () {
-    testWidgets('successfully registers and navigates to Profile Setup', (tester) async {
+    testWidgets('successfully registers and navigates to Profile Setup', (
+      tester,
+    ) async {
       final fakeService = FakeAuthApiService();
       final authState = AuthState(authService: fakeService);
       UserModel? authenticatedUser;
@@ -225,8 +260,14 @@ void main() {
       );
 
       await tester.enterText(find.byType(TextFormField).at(0), 'Maya');
-      await tester.enterText(find.byType(TextFormField).at(1), 'maya@example.com');
-      await tester.enterText(find.byType(TextFormField).at(2), 'SecurePass123!');
+      await tester.enterText(
+        find.byType(TextFormField).at(1),
+        'maya@example.com',
+      );
+      await tester.enterText(
+        find.byType(TextFormField).at(2),
+        'SecurePass123!',
+      );
 
       await tester.ensureVisible(find.text('Create account'));
       await tester.tap(find.text('Create account'));
@@ -238,7 +279,9 @@ void main() {
       expect(isNew, isTrue);
     });
 
-    testWidgets('displays DuplicateEmailException error from API', (tester) async {
+    testWidgets('displays DuplicateEmailException error from API', (
+      tester,
+    ) async {
       final fakeService = FakeAuthApiService();
       fakeService.errorToThrow = const DuplicateEmailException(
         message: 'An account with this email address already exists.',
@@ -248,15 +291,24 @@ void main() {
       await pumpAuthScreen(tester, authState: authState);
 
       await tester.enterText(find.byType(TextFormField).at(0), 'Maya');
-      await tester.enterText(find.byType(TextFormField).at(1), 'existing@example.com');
-      await tester.enterText(find.byType(TextFormField).at(2), 'SecurePass123!');
+      await tester.enterText(
+        find.byType(TextFormField).at(1),
+        'existing@example.com',
+      );
+      await tester.enterText(
+        find.byType(TextFormField).at(2),
+        'SecurePass123!',
+      );
 
       await tester.ensureVisible(find.text('Create account'));
       await tester.tap(find.text('Create account'));
       await tester.pumpAndSettle();
 
       expect(fakeService.registerCallCount, equals(1));
-      expect(find.text('An account with this email address already exists.'), findsOneWidget);
+      expect(
+        find.text('An account with this email address already exists.'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('successfully logs in and navigates to Home', (tester) async {
@@ -275,7 +327,10 @@ void main() {
         },
       );
 
-      await tester.enterText(find.byType(TextFormField).at(0), 'maya@example.com');
+      await tester.enterText(
+        find.byType(TextFormField).at(0),
+        'maya@example.com',
+      );
       await tester.enterText(find.byType(TextFormField).at(1), 'ValidPass123!');
 
       await tester.ensureVisible(find.text('Log in'));
@@ -287,21 +342,25 @@ void main() {
       expect(isNew, isFalse);
     });
 
-    testWidgets('displays InvalidCredentialsException error on failed login', (tester) async {
+    testWidgets('displays InvalidCredentialsException error on failed login', (
+      tester,
+    ) async {
       final fakeService = FakeAuthApiService();
       fakeService.errorToThrow = const InvalidCredentialsException(
         message: 'Invalid email or password.',
       );
       final authState = AuthState(authService: fakeService);
 
-      await pumpAuthScreen(
-        tester,
-        authState: authState,
-        initialIsLogin: true,
-      );
+      await pumpAuthScreen(tester, authState: authState, initialIsLogin: true);
 
-      await tester.enterText(find.byType(TextFormField).at(0), 'wrong@example.com');
-      await tester.enterText(find.byType(TextFormField).at(1), 'WrongPassword123!');
+      await tester.enterText(
+        find.byType(TextFormField).at(0),
+        'wrong@example.com',
+      );
+      await tester.enterText(
+        find.byType(TextFormField).at(1),
+        'WrongPassword123!',
+      );
 
       await tester.ensureVisible(find.text('Log in'));
       await tester.tap(find.text('Log in'));
@@ -313,7 +372,9 @@ void main() {
   });
 
   group('AuthScreen Navigation & Actions', () {
-    testWidgets('triggers onBack callback when topbar back button is pressed', (tester) async {
+    testWidgets('triggers onBack callback when topbar back button is pressed', (
+      tester,
+    ) async {
       final fakeService = FakeAuthApiService();
       final authState = AuthState(authService: fakeService);
       bool backTapped = false;
@@ -330,7 +391,9 @@ void main() {
       expect(backTapped, isTrue);
     });
 
-    testWidgets('triggers onUrgent callback when urgent help is pressed', (tester) async {
+    testWidgets('triggers onUrgent callback when urgent help is pressed', (
+      tester,
+    ) async {
       final fakeService = FakeAuthApiService();
       final authState = AuthState(authService: fakeService);
       bool urgentTapped = false;

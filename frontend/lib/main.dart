@@ -20,11 +20,7 @@ class InHercueApp extends StatefulWidget {
   /// Optional initial route override. Defaults to [AppRoutes.welcome].
   final String? initialRoute;
 
-  const InHercueApp({
-    super.key,
-    this.authState,
-    this.initialRoute,
-  });
+  const InHercueApp({super.key, this.authState, this.initialRoute});
 
   @override
   State<InHercueApp> createState() => _InHercueAppState();

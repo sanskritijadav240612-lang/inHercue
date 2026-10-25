@@ -20,10 +20,7 @@ import '../widgets/secondary_button.dart';
 class CommunityScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const CommunityScreen({
-    super.key,
-    this.onBack,
-  });
+  const CommunityScreen({super.key, this.onBack});
 
   @override
   State<CommunityScreen> createState() => _CommunityScreenState();
@@ -104,17 +101,17 @@ class _CommunityScreenState extends State<CommunityScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 760.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          'DEMO COMMUNITY',
-                          style: AppTextStyles.kicker,
-                        ),
+                        Text('DEMO COMMUNITY', style: AppTextStyles.kicker),
                         const SizedBox(height: 8.0),
                         Text(
                           'Shared experiences, respectfully held.',
@@ -151,17 +148,26 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                     child: FilterChip(
                                       label: Text(t),
                                       selected: isSelected,
-                                      onSelected: (_) => setState(() => _selectedTopic = t),
+                                      onSelected: (_) =>
+                                          setState(() => _selectedTopic = t),
                                       backgroundColor: AppColors.paper,
                                       selectedColor: AppColors.plum,
                                       labelStyle: GoogleFonts.dmSans(
-                                        color: isSelected ? Colors.white : AppColors.ink,
-                                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                                        color: isSelected
+                                            ? Colors.white
+                                            : AppColors.ink,
+                                        fontWeight: isSelected
+                                            ? FontWeight.w600
+                                            : FontWeight.w400,
                                         fontSize: 13.0,
                                       ),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30.0),
-                                        side: const BorderSide(color: AppColors.line),
+                                        borderRadius: BorderRadius.circular(
+                                          30.0,
+                                        ),
+                                        side: const BorderSide(
+                                          color: AppColors.line,
+                                        ),
                                       ),
                                       showCheckmark: false,
                                     ),
@@ -174,10 +180,20 @@ class _CommunityScreenState extends State<CommunityScreen> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.plum,
                                 foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
-                                padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 14.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 22.0,
+                                  vertical: 14.0,
+                                ),
                               ),
-                              child: Text('Create post', style: GoogleFonts.dmSans(fontWeight: FontWeight.w600)),
+                              child: Text(
+                                'Create post',
+                                style: GoogleFonts.dmSans(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -205,7 +221,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: 14.0),
-                                Text('Post', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                Text(
+                                  'Post',
+                                  style: AppTextStyles.bodySmall.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.plum,
+                                  ),
+                                ),
                                 const SizedBox(height: 6.0),
                                 TextFormField(
                                   controller: _textController,
@@ -214,7 +236,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                     hintText: 'Share an experience or ask the community',
                                     fillColor: Colors.white,
                                     filled: true,
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(13.0),
+                                      borderSide: const BorderSide(
+                                        color: AppColors.line,
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 12.0),
@@ -223,9 +250,17 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                     Checkbox(
                                       value: _pseudonym,
                                       activeColor: AppColors.plum,
-                                      onChanged: (v) => setState(() => _pseudonym = v ?? false),
+                                      onChanged: (v) => setState(
+                                        () => _pseudonym = v ?? false,
+                                      ),
                                     ),
-                                    Text('Post with a pseudonym', style: GoogleFonts.dmSans(fontSize: 13.0, color: AppColors.ink)),
+                                    Text(
+                                      'Post with a pseudonym',
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 13.0,
+                                        color: AppColors.ink,
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 16.0),
@@ -234,7 +269,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                     Expanded(
                                       child: SecondaryButton(
                                         label: 'Cancel',
-                                        onPressed: () => setState(() => _creating = false),
+                                        onPressed: () =>
+                                            setState(() => _creating = false),
                                       ),
                                     ),
                                     const SizedBox(width: 12.0),
@@ -243,9 +279,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                       child: PrimaryButton(
                                         label: 'Preview & post',
                                         onPressed: () {
-                                          if (_textController.text.trim().isNotEmpty) {
+                                          if (_textController.text
+                                              .trim()
+                                              .isNotEmpty) {
                                             setState(() {
-                                              _postText = _textController.text.trim();
+                                              _postText = _textController.text
+                                                  .trim();
                                               _posted = true;
                                               _creating = false;
                                             });
@@ -262,21 +301,24 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         // Feed
                         if (_posted)
                           _buildPostCard(
-                            kicker: 'JUST NOW · ${_selectedTopic.toUpperCase()}',
+                            kicker:
+                                'JUST NOW · ${_selectedTopic.toUpperCase()}',
                             title: 'Your demo post',
                             body: _postText,
                             id: 'user_post',
                           ),
 
                         _buildPostCard(
-                          kicker: 'DEMO POST · ${_selectedTopic == 'All' ? 'GENERAL WELLBEING' : _selectedTopic.toUpperCase()}',
+                          kicker:
+                              'DEMO POST · ${_selectedTopic == 'All' ? 'GENERAL WELLBEING' : _selectedTopic.toUpperCase()}',
                           title: 'Cycle day routines',
                           body: 'What helps you make room for rest on lower-energy days?',
                           id: 'cycle_post',
                         ),
 
                         _buildPostCard(
-                          kicker: 'DEMO POST · ${_selectedTopic == 'All' ? 'GENERAL WELLBEING' : _selectedTopic.toUpperCase()}',
+                          kicker:
+                              'DEMO POST · ${_selectedTopic == 'All' ? 'GENERAL WELLBEING' : _selectedTopic.toUpperCase()}',
                           title: 'A small grounding win',
                           body: 'I tried the 5–4–3–2–1 activity today and appreciated having a pause.',
                           id: 'grounding_post',
@@ -311,8 +353,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
             InHercueBottomNav(
               currentDestination: InHercueNavDestination.learn,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),
@@ -370,15 +414,24 @@ class _CommunityScreenState extends State<CommunityScreen> {
           Row(
             children: [
               TextButton(
-                onPressed: () => setState(() => _bookmarked = isBookmarked ? '' : id),
+                onPressed: () =>
+                    setState(() => _bookmarked = isBookmarked ? '' : id),
                 style: TextButton.styleFrom(
                   backgroundColor: AppColors.ivory,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                  padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14.0,
+                    vertical: 8.0,
+                  ),
                 ),
                 child: Text(
                   isBookmarked ? 'Saved' : 'Bookmark',
-                  style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.plum),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12.0,
+                    color: AppColors.plum,
+                  ),
                 ),
               ),
               const SizedBox(width: 8.0),
@@ -386,12 +439,20 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 onPressed: () => setState(() => _reported = id),
                 style: TextButton.styleFrom(
                   backgroundColor: AppColors.ivory,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                  padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14.0,
+                    vertical: 8.0,
+                  ),
                 ),
                 child: Text(
                   'Report',
-                  style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.plum),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12.0,
+                    color: AppColors.plum,
+                  ),
                 ),
               ),
               const SizedBox(width: 8.0),
@@ -404,12 +465,20 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: AppColors.ivory,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                  padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14.0,
+                    vertical: 8.0,
+                  ),
                 ),
                 child: Text(
                   'Reply',
-                  style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.plum),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12.0,
+                    color: AppColors.plum,
+                  ),
                 ),
               ),
             ],

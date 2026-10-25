@@ -1,9 +1,14 @@
 import '../../data/models/user_model.dart';
+import 'session_storage_stub.dart'
+    if (dart.library.io) 'session_storage_io.dart'
+    if (dart.library.html) 'session_storage_web.dart';
 
 /// Abstract contract for storing authentication session credentials.
 /// Enables swapping between in-memory ephemeral storage (development/tests)
-/// and encrypted hardware storage (production).
+/// and persistent platform storage (production/web/desktop).
 abstract class SessionStorage {
+  static SessionStorage defaultStorage = getPlatformSessionStorage();
+
   Future<void> saveToken(String token);
   Future<String?> getToken();
   Future<void> clearToken();

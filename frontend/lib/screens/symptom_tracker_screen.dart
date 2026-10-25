@@ -22,10 +22,7 @@ import '../widgets/secondary_button.dart';
 class SymptomTrackerScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const SymptomTrackerScreen({
-    super.key,
-    this.onBack,
-  });
+  const SymptomTrackerScreen({super.key, this.onBack});
 
   @override
   State<SymptomTrackerScreen> createState() => _SymptomTrackerScreenState();
@@ -111,7 +108,10 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 650.0),
@@ -119,10 +119,7 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // Hub header
-                        Text(
-                          'DEMO HEALTH RECORD',
-                          style: AppTextStyles.kicker,
-                        ),
+                        Text('DEMO HEALTH RECORD', style: AppTextStyles.kicker),
                         const SizedBox(height: 8.0),
                         Text(
                           'Notice what changes.',
@@ -159,29 +156,42 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
-                              children: ['All', '7 days', '30 days', 'Severe'].map((f) {
-                                final isSelected = _filter == f;
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: FilterChip(
-                                    label: Text(f),
-                                    selected: isSelected,
-                                    onSelected: (val) => setState(() => _filter = f),
-                                    backgroundColor: AppColors.paper,
-                                    selectedColor: AppColors.plum,
-                                    labelStyle: GoogleFonts.dmSans(
-                                      color: isSelected ? Colors.white : AppColors.ink,
-                                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                                      fontSize: 13.0,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      side: const BorderSide(color: AppColors.line),
-                                    ),
-                                    showCheckmark: false,
-                                  ),
-                                );
-                              }).toList(),
+                              children: ['All', '7 days', '30 days', 'Severe']
+                                  .map((f) {
+                                    final isSelected = _filter == f;
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 8.0,
+                                      ),
+                                      child: FilterChip(
+                                        label: Text(f),
+                                        selected: isSelected,
+                                        onSelected: (val) =>
+                                            setState(() => _filter = f),
+                                        backgroundColor: AppColors.paper,
+                                        selectedColor: AppColors.plum,
+                                        labelStyle: GoogleFonts.dmSans(
+                                          color: isSelected
+                                              ? Colors.white
+                                              : AppColors.ink,
+                                          fontWeight: isSelected
+                                              ? FontWeight.w600
+                                              : FontWeight.w400,
+                                          fontSize: 13.0,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            30.0,
+                                          ),
+                                          side: const BorderSide(
+                                            color: AppColors.line,
+                                          ),
+                                        ),
+                                        showCheckmark: false,
+                                      ),
+                                    );
+                                  })
+                                  .toList(),
                             ),
                           ),
                           const SizedBox(height: 20.0),
@@ -192,8 +202,11 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                               badge: 'NEW',
                               isModerate: true,
                               title: _name.isNotEmpty ? _name : 'Headache',
-                              subtitle: '$_startDate · ${_severity.isNotEmpty ? _severity : 'Moderate'} · ${_frequency.isNotEmpty ? _frequency : 'One time'}',
-                              description: _notes.isNotEmpty ? _notes : 'No notes added.',
+                              subtitle:
+                                  '$_startDate · ${_severity.isNotEmpty ? _severity : 'Moderate'} · ${_frequency.isNotEmpty ? _frequency : 'One time'}',
+                              description: _notes.isNotEmpty
+                                  ? _notes
+                                  : 'No notes added.',
                               onEdit: () => setState(() => _adding = true),
                             ),
                           _buildHistoryCard(
@@ -279,7 +292,13 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                                   ),
                                   const SizedBox(height: 16.0),
 
-                                  Text('Symptom', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                  Text(
+                                    'Symptom',
+                                    style: AppTextStyles.bodySmall.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.plum,
+                                    ),
+                                  ),
                                   const SizedBox(height: 6.0),
                                   TextFormField(
                                     initialValue: _name,
@@ -287,30 +306,66 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                                       hintText: 'Describe what you noticed',
                                       fillColor: Colors.white,
                                       filled: true,
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          13.0,
+                                        ),
+                                        borderSide: const BorderSide(
+                                          color: AppColors.line,
+                                        ),
+                                      ),
                                     ),
-                                    validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+                                    validator: (v) =>
+                                        (v == null || v.trim().isEmpty)
+                                        ? 'Required'
+                                        : null,
                                     onSaved: (v) => _name = v ?? '',
                                   ),
                                   const SizedBox(height: 16.0),
 
-                                  Text('Severity', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                  Text(
+                                    'Severity',
+                                    style: AppTextStyles.bodySmall.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.plum,
+                                    ),
+                                  ),
                                   const SizedBox(height: 6.0),
                                   DropdownButtonFormField<String>(
-                                    initialValue: _severity.isNotEmpty ? _severity : null,
+                                    initialValue: _severity.isNotEmpty
+                                        ? _severity
+                                        : null,
                                     hint: const Text('Select severity'),
                                     decoration: InputDecoration(
                                       fillColor: Colors.white,
                                       filled: true,
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          13.0,
+                                        ),
+                                        borderSide: const BorderSide(
+                                          color: AppColors.line,
+                                        ),
+                                      ),
                                     ),
                                     items: const [
-                                      DropdownMenuItem(value: 'Mild', child: Text('Mild')),
-                                      DropdownMenuItem(value: 'Moderate', child: Text('Moderate')),
-                                      DropdownMenuItem(value: 'Severe', child: Text('Severe')),
+                                      DropdownMenuItem(
+                                        value: 'Mild',
+                                        child: Text('Mild'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'Moderate',
+                                        child: Text('Moderate'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'Severe',
+                                        child: Text('Severe'),
+                                      ),
                                     ],
-                                    validator: (v) => v == null ? 'Required' : null,
-                                    onChanged: (v) => setState(() => _severity = v ?? ''),
+                                    validator: (v) =>
+                                        v == null ? 'Required' : null,
+                                    onChanged: (v) =>
+                                        setState(() => _severity = v ?? ''),
                                     onSaved: (v) => _severity = v ?? '',
                                   ),
                                   const SizedBox(height: 16.0),
@@ -319,9 +374,17 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                                     children: [
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text('Start date', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                            Text(
+                                              'Start date',
+                                              style: AppTextStyles.bodySmall
+                                                  .copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: AppColors.plum,
+                                                  ),
+                                            ),
                                             const SizedBox(height: 6.0),
                                             TextFormField(
                                               initialValue: _startDate,
@@ -329,9 +392,18 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                                                 hintText: 'YYYY-MM-DD',
                                                 fillColor: Colors.white,
                                                 filled: true,
-                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        13.0,
+                                                      ),
+                                                  borderSide: const BorderSide(
+                                                    color: AppColors.line,
+                                                  ),
+                                                ),
                                               ),
-                                              onSaved: (v) => _startDate = v ?? '',
+                                              onSaved: (v) =>
+                                                  _startDate = v ?? '',
                                             ),
                                           ],
                                         ),
@@ -339,9 +411,17 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                                       const SizedBox(width: 12.0),
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text('Duration', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                            Text(
+                                              'Duration',
+                                              style: AppTextStyles.bodySmall
+                                                  .copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: AppColors.plum,
+                                                  ),
+                                            ),
                                             const SizedBox(height: 6.0),
                                             TextFormField(
                                               initialValue: _duration,
@@ -349,9 +429,18 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                                                 hintText: 'e.g. 2 hours',
                                                 fillColor: Colors.white,
                                                 filled: true,
-                                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        13.0,
+                                                      ),
+                                                  borderSide: const BorderSide(
+                                                    color: AppColors.line,
+                                                  ),
+                                                ),
                                               ),
-                                              onSaved: (v) => _duration = v ?? '',
+                                              onSaved: (v) =>
+                                                  _duration = v ?? '',
                                             ),
                                           ],
                                         ),
@@ -360,36 +449,75 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                                   ),
                                   const SizedBox(height: 16.0),
 
-                                  Text('Frequency', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                  Text(
+                                    'Frequency',
+                                    style: AppTextStyles.bodySmall.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.plum,
+                                    ),
+                                  ),
                                   const SizedBox(height: 6.0),
                                   DropdownButtonFormField<String>(
-                                    initialValue: _frequency.isNotEmpty ? _frequency : null,
+                                    initialValue: _frequency.isNotEmpty
+                                        ? _frequency
+                                        : null,
                                     hint: const Text('Select frequency'),
                                     decoration: InputDecoration(
                                       fillColor: Colors.white,
                                       filled: true,
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          13.0,
+                                        ),
+                                        borderSide: const BorderSide(
+                                          color: AppColors.line,
+                                        ),
+                                      ),
                                     ),
                                     items: const [
-                                      DropdownMenuItem(value: 'One time', child: Text('One time')),
-                                      DropdownMenuItem(value: 'Intermittent', child: Text('Intermittent')),
-                                      DropdownMenuItem(value: 'Constant', child: Text('Constant')),
+                                      DropdownMenuItem(
+                                        value: 'One time',
+                                        child: Text('One time'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'Intermittent',
+                                        child: Text('Intermittent'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: 'Constant',
+                                        child: Text('Constant'),
+                                      ),
                                     ],
-                                    onChanged: (v) => setState(() => _frequency = v ?? ''),
+                                    onChanged: (v) =>
+                                        setState(() => _frequency = v ?? ''),
                                     onSaved: (v) => _frequency = v ?? '',
                                   ),
                                   const SizedBox(height: 16.0),
 
-                                  Text('Notes', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                  Text(
+                                    'Notes',
+                                    style: AppTextStyles.bodySmall.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.plum,
+                                    ),
+                                  ),
                                   const SizedBox(height: 6.0),
                                   TextFormField(
                                     initialValue: _notes,
                                     maxLines: 3,
                                     decoration: InputDecoration(
-                                      hintText: 'Triggers, context or what helped',
+                                      hintText:
+                                          'Triggers, context or what helped',
                                       fillColor: Colors.white,
                                       filled: true,
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          13.0,
+                                        ),
+                                        borderSide: const BorderSide(
+                                          color: AppColors.line,
+                                        ),
+                                      ),
                                     ),
                                     onSaved: (v) => _notes = v ?? '',
                                   ),
@@ -400,7 +528,8 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                                       Expanded(
                                         child: SecondaryButton(
                                           label: 'Cancel',
-                                          onPressed: () => setState(() => _adding = false),
+                                          onPressed: () =>
+                                              setState(() => _adding = false),
                                         ),
                                       ),
                                       const SizedBox(width: 12.0),
@@ -440,8 +569,10 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
 
             InHercueBottomNav(
               currentDestination: InHercueNavDestination.records,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),
@@ -500,12 +631,18 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
                 const SizedBox(height: 2.0),
                 Text(
                   subtitle,
-                  style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.muted),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12.0,
+                    color: AppColors.muted,
+                  ),
                 ),
                 const SizedBox(height: 4.0),
                 Text(
                   description,
-                  style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.ink),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12.0,
+                    color: AppColors.ink,
+                  ),
                 ),
               ],
             ),
@@ -514,7 +651,10 @@ class _SymptomTrackerScreenState extends State<SymptomTrackerScreen> {
             onPressed: onEdit,
             child: Text(
               'Edit',
-              style: GoogleFonts.dmSans(color: AppColors.rose, fontWeight: FontWeight.w600),
+              style: GoogleFonts.dmSans(
+                color: AppColors.rose,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import '../core/network/api_exceptions.dart';
 import '../core/storage/session_storage.dart';
 import '../data/models/user_model.dart';
@@ -16,11 +17,9 @@ class AuthState extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
-  AuthState({
-    AuthApiService? authService,
-    SessionStorage? storage,
-  })  : _authService = authService ?? AuthApiService(),
-        _storage = storage ?? InMemorySessionStorage();
+  AuthState({AuthApiService? authService, SessionStorage? storage})
+    : _authService = authService ?? AuthApiService(),
+      _storage = storage ?? SessionStorage.defaultStorage;
 
   /// Current authenticated user profile, or null if unauthenticated.
   UserModel? get currentUser => _currentUser;
@@ -97,10 +96,7 @@ class AuthState extends ChangeNotifier {
   }
 
   /// Logs in an existing user with email and password.
-  Future<bool> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<bool> login({required String email, required String password}) async {
     _setLoading(true);
     _clearError();
 
@@ -136,6 +132,25 @@ class AuthState extends ChangeNotifier {
     _clearError();
     await _storage.clearAll();
     notifyListeners();
+  }
+
+  /// Refreshes the user's profile from the server and updates storage.
+  Future<void> refreshProfile() async {
+    if (_token == null) return;
+    try {
+      _currentUser = await _authService.getMe(_token!);
+      await _storage.saveUser(_currentUser!);
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  /// Sets onboardingCompleted flag locally and saves to cache.
+  Future<void> markOnboardingCompleted() async {
+    if (_currentUser != null) {
+      _currentUser = _currentUser!.copyWith(onboardingCompleted: true);
+      await _storage.saveUser(_currentUser!);
+      notifyListeners();
+    }
   }
 
   /// Clears any active error message.
@@ -176,6 +191,8 @@ class AuthStateScope extends InheritedNotifier<AuthState> {
 
   /// Retrieves the active [AuthState] if present, otherwise returns null.
   static AuthState? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<AuthStateScope>()?.notifier;
+    return context
+        .dependOnInheritedWidgetOfExactType<AuthStateScope>()
+        ?.notifier;
   }
 }

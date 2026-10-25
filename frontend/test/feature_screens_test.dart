@@ -29,7 +29,10 @@ Widget _wrap(Widget child) {
 void main() {
   setUp(() {
     final binding = TestWidgetsFlutterBinding.ensureInitialized();
-    binding.platformDispatcher.views.first.physicalSize = const Size(1200, 1800);
+    binding.platformDispatcher.views.first.physicalSize = const Size(
+      1200,
+      1800,
+    );
     binding.platformDispatcher.views.first.devicePixelRatio = 1.0;
   });
 
@@ -40,59 +43,102 @@ void main() {
   });
 
   group('UrgentScreen Tests', () {
-    testWidgets('renders urgent help title, call emergency button, and crisis box', (tester) async {
-      await tester.pumpWidget(_wrap(const UrgentScreen()));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'renders urgent help title, call emergency button, and crisis box',
+      (tester) async {
+        await tester.pumpWidget(_wrap(const UrgentScreen()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('URGENT HELP'), findsOneWidget);
-      expect(find.text('You don’t have to handle this alone.'), findsOneWidget);
-      expect(find.text('Call emergency services'), findsOneWidget);
-      expect(find.text('Call or text 988'), findsOneWidget);
-      expect(find.text('inHERcue is not an emergency service and cannot provide medical care.'), findsOneWidget);
-    });
+        expect(find.text('URGENT HELP'), findsOneWidget);
+        expect(
+          find.text('You don’t have to handle this alone.'),
+          findsOneWidget,
+        );
+        expect(find.text('Call emergency services'), findsOneWidget);
+        expect(find.text('Call or text 988'), findsOneWidget);
+        expect(
+          find.text(
+            'inHERcue is not an emergency service and cannot provide medical care.',
+          ),
+          findsOneWidget,
+        );
+        expect(
+          find.text(
+            'This tool does not diagnose medical conditions and must not delay urgent medical care.',
+          ),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'renders India region with verified 112 emergency and Tele-MANAS hotline',
+      (tester) async {
+        await tester.pumpWidget(
+          _wrap(const UrgentScreen(initialRegionCode: 'IN')),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('Call emergency services'), findsOneWidget);
+        expect(find.text('112'), findsOneWidget);
+        expect(find.text('Call Tele-MANAS (14416)'), findsOneWidget);
+        expect(
+          find.textContaining('does NOT diagnose medical conditions'),
+          findsOneWidget,
+        );
+      },
+    );
   });
 
   group('CheckinScreen Tests', () {
-    testWidgets('multiselect symptom flow and skipping to step 3 when No symptoms today', (tester) async {
-      await tester.pumpWidget(_wrap(const CheckinScreen()));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'multiselect symptom flow and skipping to step 3 when No symptoms today',
+      (tester) async {
+        await tester.pumpWidget(_wrap(const CheckinScreen()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('BODY CHECK'), findsOneWidget);
-      expect(find.text('Are you noticing any symptoms?'), findsOneWidget);
+        expect(find.text('BODY CHECK'), findsOneWidget);
+        expect(find.text('Are you noticing any symptoms?'), findsOneWidget);
 
-      // Select 'No symptoms today'
-      await tester.tap(find.text('No symptoms today'));
-      await tester.pumpAndSettle();
+        // Select 'No symptoms today'
+        await tester.tap(find.text('No symptoms today'));
+        await tester.pumpAndSettle();
 
-      // Tap Continue
-      await tester.tap(find.text('Continue'));
-      await tester.pumpAndSettle();
+        // Tap Continue
+        await tester.tap(find.text('Continue'));
+        await tester.pumpAndSettle();
 
-      // Skips to Hydration step directly
-      expect(find.text('HYDRATION'), findsOneWidget);
-    });
+        // Skips to Hydration step directly
+        expect(find.text('HYDRATION'), findsOneWidget);
+      },
+    );
   });
 
   group('SymptomTrackerScreen Tests', () {
-    testWidgets('renders history list, filter chips, and toggles add symptom form', (tester) async {
-      await tester.pumpWidget(_wrap(const SymptomTrackerScreen()));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'renders history list, filter chips, and toggles add symptom form',
+      (tester) async {
+        await tester.pumpWidget(_wrap(const SymptomTrackerScreen()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('Notice what changes.'), findsOneWidget);
-      expect(find.text('Add symptom'), findsOneWidget);
-      expect(find.text('Headache'), findsOneWidget);
+        expect(find.text('Notice what changes.'), findsOneWidget);
+        expect(find.text('Add symptom'), findsOneWidget);
+        expect(find.text('Headache'), findsOneWidget);
 
-      // Tap Add symptom
-      await tester.tap(find.text('Add symptom'));
-      await tester.pumpAndSettle();
+        // Tap Add symptom
+        await tester.tap(find.text('Add symptom'));
+        await tester.pumpAndSettle();
 
-      expect(find.text('Add a symptom'), findsOneWidget);
-      expect(find.text('Cancel'), findsOneWidget);
-    });
+        expect(find.text('Add a symptom'), findsOneWidget);
+        expect(find.text('Cancel'), findsOneWidget);
+      },
+    );
   });
 
   group('PeriodTrackerScreen Tests', () {
-    testWidgets('renders cycle day, 4 phases, and calendar month card', (tester) async {
+    testWidgets('renders cycle day, 4 phases, and calendar month card', (
+      tester,
+    ) async {
       await tester.pumpWidget(_wrap(const PeriodTrackerScreen()));
       await tester.pumpAndSettle();
 
@@ -106,24 +152,29 @@ void main() {
   });
 
   group('MentalWellnessScreen Tests', () {
-    testWidgets('renders reflection form and AI support assistant panel with canned suggestions', (tester) async {
-      await tester.pumpWidget(_wrap(const MentalWellnessScreen()));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'renders reflection form and AI support assistant panel with canned suggestions',
+      (tester) async {
+        await tester.pumpWidget(_wrap(const MentalWellnessScreen()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('How are you, really?'), findsOneWidget);
-      expect(find.text('inHERcue Support Assistant — AI'), findsOneWidget);
-      expect(find.text('I feel overwhelmed'), findsOneWidget);
+        expect(find.text('How are you, really?'), findsOneWidget);
+        expect(find.text('inHERcue Support Assistant — AI'), findsOneWidget);
+        expect(find.text('I feel overwhelmed'), findsOneWidget);
 
-      // Tap prompt
-      await tester.tap(find.text('I feel overwhelmed'));
-      await tester.pumpAndSettle();
+        // Tap prompt
+        await tester.tap(find.text('I feel overwhelmed'));
+        await tester.pumpAndSettle();
 
-      expect(find.text('You: I feel overwhelmed'), findsOneWidget);
-    });
+        expect(find.text('You: I feel overwhelmed'), findsOneWidget);
+      },
+    );
   });
 
   group('SelfCareScreen Tests', () {
-    testWidgets('renders activities list, timer orb, and controls', (tester) async {
+    testWidgets('renders activities list, timer orb, and controls', (
+      tester,
+    ) async {
       await tester.pumpWidget(_wrap(const SelfCareScreen()));
       await tester.pumpAndSettle();
 
@@ -160,60 +211,76 @@ void main() {
   });
 
   group('CommunityScreen Tests', () {
-    testWidgets('renders community feed, topics, and bookmark toggle', (tester) async {
+    testWidgets('renders community feed, topics, and bookmark toggle', (
+      tester,
+    ) async {
       await tester.pumpWidget(_wrap(const CommunityScreen()));
       await tester.pumpAndSettle();
 
-      expect(find.text('Shared experiences, respectfully held.'), findsOneWidget);
+      expect(
+        find.text('Shared experiences, respectfully held.'),
+        findsOneWidget,
+      );
       expect(find.text('Cycle day routines'), findsOneWidget);
       expect(find.text('Create post'), findsOneWidget);
     });
   });
 
   group('AlertsScreen Tests', () {
-    testWidgets('renders alerts accordion items and expands content', (tester) async {
+    testWidgets('renders alerts accordion items and expands content', (
+      tester,
+    ) async {
       await tester.pumpWidget(_wrap(const AlertsScreen()));
       await tester.pumpAndSettle();
 
       expect(find.text('Alerts & reminders'), findsOneWidget);
-      expect(find.text('Severe or sudden symptoms deserve attention'), findsOneWidget);
+      expect(
+        find.text('Severe or sudden symptoms deserve attention'),
+        findsOneWidget,
+      );
       expect(find.text('View urgent help →'), findsOneWidget);
     });
   });
 
   group('ReportsScreen Tests', () {
-    testWidgets('renders date range, section checkboxes, and preview report button', (tester) async {
-      await tester.pumpWidget(_wrap(const ReportsScreen()));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'renders date range, section checkboxes, and preview report button',
+      (tester) async {
+        await tester.pumpWidget(_wrap(const ReportsScreen()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('Prepare a health report'), findsOneWidget);
-      expect(find.text('Preview report'), findsOneWidget);
+        expect(find.text('Prepare a health report'), findsOneWidget);
+        expect(find.text('Preview report'), findsOneWidget);
 
-      // Tap preview report
-      await tester.tap(find.text('Preview report'));
-      await tester.pumpAndSettle();
+        // Tap preview report
+        await tester.tap(find.text('Preview report'));
+        await tester.pumpAndSettle();
 
-      expect(find.text('inHERcue Health Overview'), findsOneWidget);
-      expect(find.text('Export options'), findsOneWidget);
-    });
+        expect(find.text('inHERcue Health Overview'), findsOneWidget);
+        expect(find.text('Export options'), findsOneWidget);
+      },
+    );
   });
 
   group('NewEntryScreen Tests', () {
-    testWidgets('renders entry options and displays note fields when Health Note is selected', (tester) async {
-      await tester.pumpWidget(_wrap(const NewEntryScreen()));
-      await tester.pumpAndSettle();
+    testWidgets(
+      'renders entry options and displays note fields when Health Note is selected',
+      (tester) async {
+        await tester.pumpWidget(_wrap(const NewEntryScreen()));
+        await tester.pumpAndSettle();
 
-      expect(find.text('What would you like to log?'), findsOneWidget);
-      expect(find.text('Daily Check-in'), findsOneWidget);
-      expect(find.text('Health Note'), findsOneWidget);
+        expect(find.text('What would you like to log?'), findsOneWidget);
+        expect(find.text('Daily Check-in'), findsOneWidget);
+        expect(find.text('Health Note'), findsOneWidget);
 
-      // Tap Health Note
-      await tester.tap(find.text('Health Note'));
-      await tester.pumpAndSettle();
+        // Tap Health Note
+        await tester.tap(find.text('Health Note'));
+        await tester.pumpAndSettle();
 
-      expect(find.text('What is this note about?'), findsOneWidget);
-      expect(find.text('Save note'), findsOneWidget);
-    });
+        expect(find.text('What is this note about?'), findsOneWidget);
+        expect(find.text('Save note'), findsOneWidget);
+      },
+    );
   });
 
   group('HubScreen Tests', () {
@@ -228,8 +295,12 @@ void main() {
   });
 
   group('DetailPageScreen Tests', () {
-    testWidgets('renders guidance module with wellness cards carousel', (tester) async {
-      await tester.pumpWidget(_wrap(const DetailPageScreen(type: DetailType.guidance)));
+    testWidgets('renders guidance module with wellness cards carousel', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(const DetailPageScreen(type: DetailType.guidance)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Wellness Card'), findsOneWidget);
@@ -237,8 +308,12 @@ void main() {
       expect(find.text('Next tip →'), findsOneWidget);
     });
 
-    testWidgets('renders doctors module with sample providers and search', (tester) async {
-      await tester.pumpWidget(_wrap(const DetailPageScreen(type: DetailType.doctors)));
+    testWidgets('renders doctors module with sample providers and search', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _wrap(const DetailPageScreen(type: DetailType.doctors)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Find a Doctor'), findsOneWidget);

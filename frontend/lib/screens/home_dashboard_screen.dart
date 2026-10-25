@@ -3,7 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../core/navigation/app_routes.dart';
 import '../core/theme/app_colors.dart';
+import '../data/models/passport_model.dart';
+import '../data/models/symptom_model.dart';
 import '../data/models/user_model.dart';
+import '../data/services/passport_api_service.dart';
+import '../data/services/symptom_api_service.dart';
 import '../state/auth_state.dart';
 import '../widgets/in_hercue_bottom_nav.dart';
 import '../widgets/in_hercue_icon.dart';
@@ -23,7 +27,7 @@ import '../widgets/urgent_card.dart';
 /// - 7 horizontal resource cards (Self-Care Studio, Myth vs Fact, Find a Doctor, etc.)
 /// - Urgent help card banner
 /// - Frosted translucent bottom navigation with elevated New Entry (+) button
-class HomeDashboardScreen extends StatelessWidget {
+class HomeDashboardScreen extends StatefulWidget {
   /// Optional injected [AuthState] (useful for tests or custom scope).
   final AuthState? authState;
 
@@ -45,8 +49,55 @@ class HomeDashboardScreen extends StatelessWidget {
     this.onNavigate,
   });
 
+  @override
+  State<HomeDashboardScreen> createState() => _HomeDashboardScreenState();
+}
+
+class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
+  SymptomLogModel? _latestCheckin;
+  PassportModel? _passport;
+  String? _loadedToken;
+  final SymptomApiService _symptomService = SymptomApiService();
+  final PassportApiService _passportService = PassportApiService();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final resolvedAuthState =
+        widget.authState ?? AuthStateScope.maybeOf(context);
+    final currentToken = resolvedAuthState?.token;
+
+    if (currentToken != _loadedToken) {
+      _loadedToken = currentToken;
+      if (currentToken == null || currentToken.isEmpty) {
+        setState(() {
+          _latestCheckin = null;
+          _passport = null;
+        });
+      } else {
+        _loadPersistedData(currentToken);
+      }
+    }
+  }
+
+  Future<void> _loadPersistedData(String token) async {
+    try {
+      final results = await Future.wait([
+        _symptomService.getLatest(token).catchError((_) => null),
+        _passportService.getPassport(token).catchError((_) => null),
+      ]);
+
+      if (mounted && _loadedToken == token) {
+        setState(() {
+          _latestCheckin = results[0] as SymptomLogModel?;
+          _passport = results[1] as PassportModel?;
+        });
+      }
+    } catch (_) {}
+  }
+
   bool _resolveIsDemo(BuildContext context, AuthState? resolvedAuthState) {
-    if (isDemo != null) return isDemo!;
+    if (widget.isDemo != null) return widget.isDemo!;
     final routeArgs = ModalRoute.of(context)?.settings.arguments;
     if (routeArgs is Map && routeArgs['isDemo'] == true) return true;
     final isAuthenticated = resolvedAuthState?.isAuthenticated ?? false;
@@ -58,7 +109,9 @@ class HomeDashboardScreen extends StatelessWidget {
   }
 
   String _formatTodayDate() {
-    if (dateString != null && dateString!.isNotEmpty) return dateString!;
+    if (widget.dateString != null && widget.dateString!.isNotEmpty) {
+      return widget.dateString!;
+    }
     final now = DateTime.now();
     const weekdays = [
       'MONDAY',
@@ -67,7 +120,7 @@ class HomeDashboardScreen extends StatelessWidget {
       'THURSDAY',
       'FRIDAY',
       'SATURDAY',
-      'SUNDAY'
+      'SUNDAY',
     ];
     const months = [
       'JAN',
@@ -81,7 +134,7 @@ class HomeDashboardScreen extends StatelessWidget {
       'SEP',
       'OCT',
       'NOV',
-      'DEC'
+      'DEC',
     ];
     final weekday = weekdays[now.weekday - 1];
     final month = months[now.month - 1];
@@ -89,8 +142,8 @@ class HomeDashboardScreen extends StatelessWidget {
   }
 
   void _navigateTo(BuildContext context, String routeName) {
-    if (onNavigate != null) {
-      onNavigate!(routeName);
+    if (widget.onNavigate != null) {
+      widget.onNavigate!(routeName);
     } else {
       Navigator.of(context).pushNamed(routeName);
     }
@@ -98,7 +151,8 @@ class HomeDashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final resolvedAuthState = authState ?? AuthStateScope.maybeOf(context);
+    final resolvedAuthState =
+        widget.authState ?? AuthStateScope.maybeOf(context);
     final user = _resolveUser(context, resolvedAuthState);
     final isDemoMode = _resolveIsDemo(context, resolvedAuthState);
 
@@ -109,8 +163,8 @@ class HomeDashboardScreen extends StatelessWidget {
     final displayName = isDemoMode
         ? 'Maya'
         : (user != null && user.name.trim().isNotEmpty
-            ? user.name.trim().split(' ').first
-            : 'friend');
+              ? user.name.trim().split(' ').first
+              : 'friend');
 
     final avatarInitial = displayName.isNotEmpty
         ? displayName[0].toUpperCase()
@@ -175,7 +229,9 @@ class HomeDashboardScreen extends StatelessWidget {
                             _buildSectionHeading(
                               kicker: 'YOUR WELLBEING',
                               title: 'Explore your health',
-                              badgeText: isDemoMode ? 'Demo data' : 'Active record',
+                              badgeText: isDemoMode
+                                  ? 'Demo data'
+                                  : 'Active record',
                             ),
 
                             const SizedBox(height: 14.0),
@@ -213,13 +269,17 @@ class HomeDashboardScreen extends StatelessWidget {
                             const SizedBox(height: 14.0),
 
                             // 9. Horizontal Resource Cards
-                            _buildHorizontalCards(context, screenWidth: screenWidth),
+                            _buildHorizontalCards(
+                              context,
+                              screenWidth: screenWidth,
+                            ),
 
                             const SizedBox(height: 18.0),
 
                             // 10. Urgent Medical Help Card
                             UrgentCard(
-                              onUrgent: () => _navigateTo(context, AppRoutes.urgent),
+                              onUrgent: () =>
+                                  _navigateTo(context, AppRoutes.urgent),
                             ),
                           ],
                         );
@@ -273,7 +333,11 @@ class HomeDashboardScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.visibility_outlined, size: 16.0, color: AppColors.gold),
+          const Icon(
+            Icons.visibility_outlined,
+            size: 16.0,
+            color: AppColors.gold,
+          ),
           const SizedBox(width: 8.0),
           Expanded(
             child: Text(
@@ -422,10 +486,7 @@ class HomeDashboardScreen extends StatelessWidget {
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                AppColors.plum,
-                Color(0xFF68475E),
-              ],
+              colors: [AppColors.plum, Color(0xFF68475E)],
             ),
             boxShadow: [
               BoxShadow(
@@ -490,6 +551,27 @@ class HomeDashboardScreen extends StatelessWidget {
                         color: const Color(0xFFD4C7CF),
                       ),
                     ),
+                    if (_latestCheckin != null) ...[
+                      const SizedBox(height: 10.0),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 4.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.18),
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Text(
+                          'Recorded: ${_latestCheckin!.date} • ${_latestCheckin!.symptoms.isNotEmpty ? _latestCheckin!.symptoms.map((s) => s.type).join(', ') : (_latestCheckin!.flow != 'none' ? 'Flow: ${_latestCheckin!.flow}' : 'Routine')}',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 11.0,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFFF2C7C7),
+                          ),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 16.0),
                     Text(
                       "Start today's check-in →",
@@ -569,7 +651,10 @@ class HomeDashboardScreen extends StatelessWidget {
         if (badgeText != null) ...[
           const SizedBox(width: 8.0),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10.0,
+              vertical: 5.0,
+            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(color: AppColors.line, width: 1.0),
@@ -624,22 +709,26 @@ class HomeDashboardScreen extends StatelessWidget {
     if (isNarrow) {
       return Column(
         children: actions
-            .map((item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: _buildDailyActionCard(context, item),
-                ))
+            .map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: _buildDailyActionCard(context, item),
+              ),
+            )
             .toList(),
       );
     }
 
     return Row(
       children: actions
-          .map((item) => Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                  child: _buildDailyActionCard(context, item),
-                ),
-              ))
+          .map(
+            (item) => Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                child: _buildDailyActionCard(context, item),
+              ),
+            ),
+          )
           .toList(),
     );
   }
@@ -765,7 +854,9 @@ class HomeDashboardScreen extends StatelessWidget {
       ),
       _FeatureCardData(
         title: 'Period Tracker',
-        text: isDemo ? 'Cycle day 18 • 10 days to go' : 'Cycle day -- • Tap to log',
+        text: isDemo
+            ? 'Cycle day 18 • 10 days to go'
+            : 'Cycle day -- • Tap to log',
         icon: InHercueIconType.calendar,
         bgColor: AppColors.sageLight,
         route: AppRoutes.period,
@@ -783,12 +874,14 @@ class HomeDashboardScreen extends StatelessWidget {
       // 4 columns on wide screens
       return Row(
         children: features
-            .map((item) => Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                    child: _buildFeatureCard(context, item),
-                  ),
-                ))
+            .map(
+              (item) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  child: _buildFeatureCard(context, item),
+                ),
+              ),
+            )
             .toList(),
       );
     }
@@ -970,7 +1063,10 @@ class HomeDashboardScreen extends StatelessWidget {
   // 8. Horizontal Resource Cards
   // ---------------------------------------------------------------------------
 
-  Widget _buildHorizontalCards(BuildContext context, {required double screenWidth}) {
+  Widget _buildHorizontalCards(
+    BuildContext context, {
+    required double screenWidth,
+  }) {
     final items = [
       _ResourceCardData(
         title: 'Self-Care Studio',
@@ -1004,7 +1100,9 @@ class HomeDashboardScreen extends StatelessWidget {
       ),
       _ResourceCardData(
         title: 'Health Passport',
-        subtitle: 'Portable overview',
+        subtitle: _passport != null && _passport!.focus != null
+            ? _passport!.focus!
+            : 'Portable overview',
         icon: InHercueIconType.shield,
         route: AppRoutes.passport,
       ),
@@ -1020,10 +1118,12 @@ class HomeDashboardScreen extends StatelessWidget {
       // 1 column on mobile screens
       return Column(
         children: items
-            .map((item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: _buildHorizontalCard(context, item, isWideView: false),
-                ))
+            .map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: _buildHorizontalCard(context, item, isWideView: false),
+              ),
+            )
             .toList(),
       );
     } else if (screenWidth < 760.0) {

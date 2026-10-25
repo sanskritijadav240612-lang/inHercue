@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../core/theme/app_colors.dart';
 
 /// A custom painter that draws a smooth, elegant bezier curve and gradient fill

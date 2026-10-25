@@ -68,7 +68,7 @@ void main() {
           'name': 'Sanskriti',
           'token': 'jwt_token_sample_123',
           'onboardingCompleted': false,
-        }
+        },
       };
 
       final authResponse = AuthResponseModel.fromJson(json);

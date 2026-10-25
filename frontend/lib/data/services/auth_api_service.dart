@@ -29,10 +29,7 @@ class AuthApiService {
       body['age'] = age;
     }
 
-    final response = await _client.post(
-      ApiConfig.registerEndpoint,
-      body: body,
-    );
+    final response = await _client.post(ApiConfig.registerEndpoint, body: body);
 
     return AuthResponseModel.fromJson(response);
   }
@@ -47,20 +44,14 @@ class AuthApiService {
       'password': password,
     };
 
-    final response = await _client.post(
-      ApiConfig.loginEndpoint,
-      body: body,
-    );
+    final response = await _client.post(ApiConfig.loginEndpoint, body: body);
 
     return AuthResponseModel.fromJson(response);
   }
 
   /// Retrieves the current authenticated user's profile using their JWT token.
   Future<UserModel> getMe(String token) async {
-    final response = await _client.get(
-      ApiConfig.meEndpoint,
-      token: token,
-    );
+    final response = await _client.get(ApiConfig.meEndpoint, token: token);
 
     final data = response['data'] as Map<String, dynamic>? ?? {};
     return UserModel.fromJson(data);

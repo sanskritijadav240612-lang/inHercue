@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../core/navigation/app_routes.dart';
 import '../core/theme/app_colors.dart';
 import '../core/theme/app_text_styles.dart';
+import '../data/services/passport_api_service.dart';
 import '../state/auth_state.dart';
 import '../widgets/in_hercue_topbar.dart';
 import '../widgets/primary_button.dart';
@@ -47,6 +48,10 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   int _step = 1;
   String _selectedFocus = '';
   String _selectedCycle = '';
+  bool _isSaving = false;
+  bool _initialFetchDone = false;
+  String? _errorMessage;
+  final PassportApiService _passportService = PassportApiService();
 
   // Options directly from Figma App.tsx:126-127
   static const List<String> _focusOptions = [
@@ -62,6 +67,39 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     'I don’t have periods',
     'Prefer not to say',
   ];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialFetchDone) {
+      _initialFetchDone = true;
+      _loadExistingPassport();
+    }
+  }
+
+  Future<void> _loadExistingPassport() async {
+    final authState = AuthStateScope.maybeOf(context);
+    final token = authState?.token;
+    if (token == null || token.isEmpty) return;
+
+    try {
+      final passport = await _passportService.getPassport(token);
+      if (passport != null && mounted) {
+        setState(() {
+          if (passport.focus != null &&
+              _focusOptions.contains(passport.focus)) {
+            _selectedFocus = passport.focus!;
+          }
+          if (passport.cycleType != null &&
+              _cycleOptions.contains(passport.cycleType)) {
+            _selectedCycle = passport.cycleType!;
+          }
+        });
+      }
+    } catch (_) {
+      // Non-fatal if passport does not exist yet
+    }
+  }
 
   String get _currentChoice {
     if (_step == 1) return _selectedFocus;
@@ -103,16 +141,67 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     }
   }
 
-  void _handleContinue() {
+  Future<void> _handleContinue() async {
     if (_step < 3) {
       setState(() {
         _step++;
       });
+      return;
+    }
+
+    final authState = AuthStateScope.maybeOf(context);
+    final token = authState?.token;
+
+    if (token != null && token.isNotEmpty) {
+      setState(() {
+        _isSaving = true;
+        _errorMessage = null;
+      });
+
+      try {
+        await _passportService.savePassport(
+          token: token,
+          focus: _selectedFocus.isNotEmpty ? _selectedFocus : null,
+          cycleType: _selectedCycle.isNotEmpty ? _selectedCycle : null,
+        );
+        await authState?.markOnboardingCompleted();
+
+        if (!mounted) return;
+        if (widget.onCompleted != null) {
+          widget.onCompleted!(_selectedFocus, _selectedCycle);
+        } else {
+          Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+        }
+      } catch (e) {
+        if (!mounted) return;
+        setState(() {
+          _errorMessage =
+              'Could not save profile preferences. Please try again.';
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_errorMessage!),
+            backgroundColor: AppColors.rose,
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: 'Retry',
+              textColor: Colors.white,
+              onPressed: _handleContinue,
+            ),
+          ),
+        );
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isSaving = false;
+          });
+        }
+      }
     } else {
+      // Demo mode or unauthenticated
       if (widget.onCompleted != null) {
         widget.onCompleted!(_selectedFocus, _selectedCycle);
       } else {
-        // Navigate to Home dashboard matching Figma App.tsx:132
         Navigator.of(context).pushReplacementNamed(AppRoutes.home);
       }
     }
@@ -145,15 +234,15 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
         child: Column(
           children: [
             // Topbar matching Figma: step > 1 ? setStep(step - 1) : go('auth')
-            InHercueTopbar(
-              onBack: _handleBack,
-              onUrgent: _handleUrgent,
-            ),
+            InHercueTopbar(onBack: _handleBack, onUrgent: _handleUrgent),
 
             // Scrollable questionnaire body
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 20.0,
+                ),
                 child: Center(
                   child: SizedBox(
                     width: contentWidth,
@@ -161,34 +250,34 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                          // Progress Label: HEALTH PROFILE | {step} OF 3
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  'HEALTH PROFILE',
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 11.0,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 1.3,
-                                    color: AppColors.muted,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              const SizedBox(width: 8.0),
-                              Text(
-                                '$_step of 3',
+                        // Progress Label: HEALTH PROFILE | {step} OF 3
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'HEALTH PROFILE',
                                 style: GoogleFonts.dmSans(
                                   fontSize: 11.0,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1.3,
                                   color: AppColors.muted,
                                 ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              '$_step of 3',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.3,
+                                color: AppColors.muted,
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 10.0),
 
                         // Progress Bar (.progress and .progress i)
@@ -225,8 +314,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                           _step == 1
                               ? 'What would you like to focus on?'
                               : _step == 2
-                                  ? 'How would you describe your cycle?'
-                                  : 'You’re all set, $greetingName.',
+                              ? 'How would you describe your cycle?'
+                              : 'You’re all set, $greetingName.',
                           style: AppTextStyles.screenHeading.copyWith(
                             fontSize: 32.0,
                             height: 1.18,
@@ -249,17 +338,23 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                         // Steps 1 & 2: Choice List (.choice-list)
                         if (_step < 3) ...[
                           Column(
-                            children: (_step == 1 ? _focusOptions : _cycleOptions).map((option) {
-                              final isSelected = _currentChoice == option;
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 10.0),
-                                child: _buildChoiceItem(
-                                  label: option,
-                                  isSelected: isSelected,
-                                  onTap: () => _selectChoice(option),
-                                ),
-                              );
-                            }).toList(),
+                            children:
+                                (_step == 1 ? _focusOptions : _cycleOptions)
+                                    .map((option) {
+                                      final isSelected =
+                                          _currentChoice == option;
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 10.0,
+                                        ),
+                                        child: _buildChoiceItem(
+                                          label: option,
+                                          isSelected: isSelected,
+                                          onTap: () => _selectChoice(option),
+                                        ),
+                                      );
+                                    })
+                                    .toList(),
                           ),
                           const SizedBox(height: 22.0),
                         ],
@@ -327,9 +422,15 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
                         // Primary Action Button
                         PrimaryButton(
-                          label: _step == 3 ? 'Go to my dashboard' : 'Continue',
-                          showArrow: true,
-                          onPressed: (_step < 3 && _currentChoice.isEmpty)
+                          label: _isSaving
+                              ? 'Saving profile...'
+                              : (_step == 3
+                                    ? 'Go to my dashboard'
+                                    : 'Continue'),
+                          showArrow: !_isSaving,
+                          onPressed:
+                              (_isSaving ||
+                                  (_step < 3 && _currentChoice.isEmpty))
                               ? null
                               : _handleContinue,
                         ),
@@ -370,7 +471,10 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                 width: 1.0,
               ),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 18.0,
+              vertical: 18.0,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -379,7 +483,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                     label,
                     style: GoogleFonts.dmSans(
                       fontSize: 15.0,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
                       color: isSelected ? AppColors.plum : AppColors.ink,
                     ),
                   ),

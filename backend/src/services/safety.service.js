@@ -77,7 +77,7 @@ function evaluateSafetyTriage(input = {}) {
         'Present your Health Passport to the emergency medical team'
       ],
       redFlags,
-      disclaimer: 'HerSignal provides safety guidance based on standard clinical red-flag indicators. It does not provide medical diagnosis, treatment, or clinical prescriptions.'
+      disclaimer: 'HerSignal provides safety guidance based on standard clinical red-flag indicators. It does not diagnose medical conditions, treatment, or clinical prescriptions, and must not delay urgent medical care.'
     };
   }
 
@@ -94,7 +94,7 @@ function evaluateSafetyTriage(input = {}) {
       'Consult a licensed physician for ongoing concerns'
     ],
     redFlags: [],
-    disclaimer: 'HerSignal provides safety guidance based on standard clinical red-flag indicators. It does not provide medical diagnosis, treatment, or clinical prescriptions.'
+    disclaimer: 'HerSignal provides safety guidance based on standard clinical red-flag indicators. It does not diagnose medical conditions, treatment, or clinical prescriptions, and must not delay urgent medical care.'
   };
 }
 

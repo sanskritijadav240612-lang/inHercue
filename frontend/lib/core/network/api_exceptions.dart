@@ -3,10 +3,7 @@ class ValidationErrorDetail {
   final String field;
   final String issue;
 
-  const ValidationErrorDetail({
-    required this.field,
-    required this.issue,
-  });
+  const ValidationErrorDetail({required this.field, required this.issue});
 
   factory ValidationErrorDetail.fromJson(Map<String, dynamic> json) {
     return ValidationErrorDetail(

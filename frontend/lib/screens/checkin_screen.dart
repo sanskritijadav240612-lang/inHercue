@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../core/navigation/app_routes.dart';
 import '../core/theme/app_colors.dart';
 import '../core/theme/app_text_styles.dart';
+import '../data/models/symptom_model.dart';
+import '../data/services/symptom_api_service.dart';
+import '../state/auth_state.dart';
 import '../widgets/in_hercue_icon.dart';
 import '../widgets/in_hercue_topbar.dart';
 import '../widgets/primary_button.dart';
@@ -29,6 +32,9 @@ class CheckinScreen extends StatefulWidget {
 class _CheckinScreenState extends State<CheckinScreen> {
   int _step = 0;
   bool _saved = false;
+  bool _isSavingCheckin = false;
+  SafetyAssessment? _safetyAssessment;
+  final SymptomApiService _symptomService = SymptomApiService();
   List<String> _symptoms = [];
   String _plan = 'open'; // 'open', 'saved', 'dismissed'
   bool _planReminder = false;
@@ -828,26 +834,121 @@ class _CheckinScreenState extends State<CheckinScreen> {
         SecondaryButton(label: 'Back', onPressed: () => _prevStep(context)),
         const SizedBox(height: 10.0),
         PrimaryButton(
-          label: 'Confirm & save check-in',
-          trailingIcon: const Text(
-            '✓',
-            style: TextStyle(color: Colors.white, fontSize: 16.0),
-          ),
-          onPressed: () {
-            setState(() {
-              _saved = true;
-              _step = _stepsData.length + 1;
-            });
-          },
+          label: _isSavingCheckin
+              ? 'Saving check-in...'
+              : 'Confirm & save check-in',
+          trailingIcon: _isSavingCheckin
+              ? null
+              : const Text(
+                  '✓',
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                ),
+          onPressed: _isSavingCheckin ? null : _handleSaveCheckin,
         ),
         const SizedBox(height: 24.0),
       ],
     );
   }
 
+  Future<void> _handleSaveCheckin() async {
+    final authState = AuthStateScope.maybeOf(context);
+    final token = authState?.token;
+
+    if (token != null && token.isNotEmpty) {
+      setState(() {
+        _isSavingCheckin = true;
+      });
+
+      try {
+        final mappedSymptoms = <Map<String, dynamic>>[];
+        int calculatedPain = 0;
+
+        for (final s in _symptoms) {
+          if (s == 'No symptoms today') continue;
+          final sev =
+              (_answers['$s severity'] ?? _answers['${s}_severity'] ?? 'mild')
+                  .toLowerCase();
+
+          // Only calculate pain scale for pain/cramp related complaints
+          final isPainRelated =
+              s.toLowerCase().contains('cramp') ||
+              s.toLowerCase().contains('pain') ||
+              s.toLowerCase().contains('headache');
+
+          if (isPainRelated) {
+            final painVal = sev == 'severe' ? 8 : (sev == 'moderate' ? 5 : 2);
+            if (painVal > calculatedPain) {
+              calculatedPain = painVal;
+            }
+          }
+
+          final dur = _answers['$s duration'] ?? _answers['timing'];
+          final freq = _answers['$s frequency'];
+
+          mappedSymptoms.add({
+            'type': s,
+            'severity': sev,
+            if (dur != null && dur.isNotEmpty) 'duration': dur,
+            if (freq != null && freq.isNotEmpty) 'frequency': freq,
+          });
+        }
+
+        final todayStr = DateTime.now().toIso8601String().split('T').first;
+        final logResult = await _symptomService.saveCheckin(
+          token: token,
+          date: todayStr,
+          flow: _answers['menstrual']?.toLowerCase() ?? 'none',
+          painScale: calculatedPain,
+          symptoms: mappedSymptoms,
+          hydration: _answers['hydration'],
+          sleep: _answers['sleep'],
+          energy: _answers['energy'],
+          activity: _answers['activity'],
+          appetite: _answers['appetite'],
+          mood: _answers['mood'],
+          notes: _noteController.text.trim().isNotEmpty
+              ? _noteController.text.trim()
+              : null,
+        );
+
+        if (!mounted) return;
+        setState(() {
+          _saved = true;
+          _safetyAssessment = logResult.safetyAssessment;
+          _step = _stepsData.length + 1;
+        });
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.danger,
+            content: Text(
+              'Could not save check-in to server: ${e.toString()}',
+              style: GoogleFonts.dmSans(color: Colors.white),
+            ),
+          ),
+        );
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isSavingCheckin = false;
+          });
+        }
+      }
+    } else {
+      // Demo mode fallback
+      setState(() {
+        _saved = true;
+        _step = _stepsData.length + 1;
+      });
+    }
+  }
+
   Widget _buildCompleteContent(BuildContext context) {
     final hasStress =
         _answers['mood']?.toLowerCase().contains('stress') ?? false;
+    final authState = AuthStateScope.maybeOf(context);
+    final isAuthenticated = authState?.isAuthenticated ?? false;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -887,7 +988,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
         ),
         const SizedBox(height: 8.0),
         Text(
-          'Your entry is saved in your demo health history. You can edit it from Records.',
+          isAuthenticated
+              ? 'Your check-in has been securely saved to your health history.'
+              : 'Your entry is saved in your demo health history. You can edit it from Records.',
           textAlign: TextAlign.center,
           style: GoogleFonts.dmSans(
             fontSize: 14.0,
@@ -896,6 +999,69 @@ class _CheckinScreenState extends State<CheckinScreen> {
           ),
         ),
         const SizedBox(height: 24.0),
+
+        if (_safetyAssessment != null && _safetyAssessment!.isEmergency) ...[
+          Container(
+            padding: const EdgeInsets.all(18.0),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFBF4F1),
+              borderRadius: BorderRadius.circular(16.0),
+              border: Border.all(color: AppColors.danger, width: 1.5),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const InHercueIcon(
+                      icon: InHercueIconType.alert,
+                      color: AppColors.danger,
+                      size: 22.0,
+                    ),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: Text(
+                        'CLINICAL SAFETY ALERT',
+                        style: GoogleFonts.dmSans(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12.0,
+                          letterSpacing: 1.2,
+                          color: AppColors.danger,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8.0),
+                Text(
+                  _safetyAssessment!.advice,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13.0,
+                    color: AppColors.ink,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                Text(
+                  'This assessment does not diagnose medical conditions and must not delay urgent medical care.',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 11.0,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.danger,
+                    height: 1.4,
+                  ),
+                ),
+                const SizedBox(height: 14.0),
+                PrimaryButton(
+                  label: 'Get Urgent Medical Care',
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(AppRoutes.urgent),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 18.0),
+        ],
 
         // Reflection Card
         Container(

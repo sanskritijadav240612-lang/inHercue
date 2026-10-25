@@ -52,10 +52,8 @@ class WelcomeScreen extends StatelessWidget {
     if (onExploreDemo != null) {
       onExploreDemo!();
     } else {
-      Navigator.of(context).pushNamed(
-        AppRoutes.home,
-        arguments: const {'isDemo': true},
-      );
+      Navigator.of(context)
+          .pushNamed(AppRoutes.home, arguments: const {'isDemo': true});
     }
   }
 
@@ -88,11 +86,7 @@ class WelcomeScreen extends StatelessWidget {
           gradient: RadialGradient(
             center: Alignment(0.0, -0.4),
             radius: 1.15,
-            colors: [
-              Color(0xFFFFFDF8),
-              AppColors.ivory,
-              Color(0xFFEFE4DF),
-            ],
+            colors: [Color(0xFFFFFDF8), AppColors.ivory, Color(0xFFEFE4DF)],
             stops: [0.0, 0.58, 1.0],
           ),
         ),

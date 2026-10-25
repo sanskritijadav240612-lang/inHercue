@@ -7,22 +7,19 @@ import 'package:frontend/widgets/urgent_card.dart';
 void main() {
   Widget wrapWidget(Widget child) {
     return MaterialApp(
-      home: Scaffold(
-        body: Center(child: child),
-      ),
+      home: Scaffold(body: Center(child: child)),
     );
   }
 
   group('PrimaryButton Widget Tests', () {
-    testWidgets('renders label and triggers onPressed callback', (tester) async {
+    testWidgets('renders label and triggers onPressed callback', (
+      tester,
+    ) async {
       bool tapped = false;
 
       await tester.pumpWidget(
         wrapWidget(
-          PrimaryButton(
-            label: 'Continue',
-            onPressed: () => tapped = true,
-          ),
+          PrimaryButton(label: 'Continue', onPressed: () => tapped = true),
         ),
       );
 
@@ -52,12 +49,7 @@ void main() {
 
     testWidgets('disabled when onPressed is null', (tester) async {
       await tester.pumpWidget(
-        wrapWidget(
-          const PrimaryButton(
-            label: 'Submit',
-            onPressed: null,
-          ),
-        ),
+        wrapWidget(const PrimaryButton(label: 'Submit', onPressed: null)),
       );
 
       expect(find.text('Submit'), findsOneWidget);
@@ -66,7 +58,9 @@ void main() {
       await tester.pump();
     });
 
-    testWidgets('displays CircularProgressIndicator when isLoading is true', (tester) async {
+    testWidgets('displays CircularProgressIndicator when isLoading is true', (
+      tester,
+    ) async {
       bool tapped = false;
 
       await tester.pumpWidget(
@@ -89,14 +83,11 @@ void main() {
       expect(tapped, isFalse);
     });
 
-    testWidgets('satisfies min-height 54px touch target constraint', (tester) async {
+    testWidgets('satisfies min-height 54px touch target constraint', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        wrapWidget(
-          PrimaryButton(
-            label: 'Action',
-            onPressed: () {},
-          ),
-        ),
+        wrapWidget(PrimaryButton(label: 'Action', onPressed: () {})),
       );
 
       final buttonFinder = find.byType(PrimaryButton);
@@ -106,15 +97,14 @@ void main() {
   });
 
   group('SecondaryButton Widget Tests', () {
-    testWidgets('renders label, outline border, and invokes callback', (tester) async {
+    testWidgets('renders label, outline border, and invokes callback', (
+      tester,
+    ) async {
       bool tapped = false;
 
       await tester.pumpWidget(
         wrapWidget(
-          SecondaryButton(
-            label: 'Cancel',
-            onPressed: () => tapped = true,
-          ),
+          SecondaryButton(label: 'Cancel', onPressed: () => tapped = true),
         ),
       );
 
@@ -128,12 +118,7 @@ void main() {
 
     testWidgets('disabled when onPressed is null', (tester) async {
       await tester.pumpWidget(
-        wrapWidget(
-          const SecondaryButton(
-            label: 'Disabled',
-            onPressed: null,
-          ),
-        ),
+        wrapWidget(const SecondaryButton(label: 'Disabled', onPressed: null)),
       );
 
       expect(find.text('Disabled'), findsOneWidget);
@@ -143,12 +128,7 @@ void main() {
 
     testWidgets('satisfies min-height 54px constraint', (tester) async {
       await tester.pumpWidget(
-        wrapWidget(
-          SecondaryButton(
-            label: 'Back',
-            onPressed: () {},
-          ),
-        ),
+        wrapWidget(SecondaryButton(label: 'Back', onPressed: () {})),
       );
 
       final size = tester.getSize(find.byType(SecondaryButton));
@@ -157,20 +137,20 @@ void main() {
   });
 
   group('UrgentCard Widget Tests', () {
-    testWidgets('renders title, description, and triggers onUrgent callback', (tester) async {
+    testWidgets('renders title, description, and triggers onUrgent callback', (
+      tester,
+    ) async {
       bool urgentTapped = false;
 
       await tester.pumpWidget(
-        wrapWidget(
-          UrgentCard(
-            onUrgent: () => urgentTapped = true,
-          ),
-        ),
+        wrapWidget(UrgentCard(onUrgent: () => urgentTapped = true)),
       );
 
       expect(find.text('Need medical help right now?'), findsOneWidget);
       expect(
-        find.text('Do not wait for your next check-in if symptoms are severe or alarming.'),
+        find.text(
+          'Do not wait for your next check-in if symptoms are severe or alarming.',
+        ),
         findsOneWidget,
       );
       expect(find.text('Get urgent help'), findsOneWidget);
@@ -187,13 +167,7 @@ void main() {
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.resetPhysicalSize);
 
-      await tester.pumpWidget(
-        wrapWidget(
-          UrgentCard(
-            onUrgent: () {},
-          ),
-        ),
-      );
+      await tester.pumpWidget(wrapWidget(UrgentCard(onUrgent: () {})));
 
       expect(find.text('Get urgent help'), findsOneWidget);
       final cardSize = tester.getSize(find.byType(UrgentCard));

@@ -19,10 +19,7 @@ import '../widgets/secondary_button.dart';
 class ReportsScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const ReportsScreen({
-    super.key,
-    this.onBack,
-  });
+  const ReportsScreen({super.key, this.onBack});
 
   @override
   State<ReportsScreen> createState() => _ReportsScreenState();
@@ -32,8 +29,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
   bool _preview = false;
   String _status = '';
   final TextEditingController _summaryController = TextEditingController(
-    text:
-        'Demo summary: Two symptoms and four daily check-ins were logged in this date range. Mood was mostly steady and average reported sleep was restful.',
+    text: 'Demo summary: Two symptoms and four daily check-ins were logged in this date range. Mood was mostly steady and average reported sleep was restful.',
   );
 
   final List<String> _sections = [
@@ -107,7 +103,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 650.0),
@@ -153,16 +152,30 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                   children: [
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text('From', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                          Text(
+                                            'From',
+                                            style: AppTextStyles.bodySmall
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.plum,
+                                                ),
+                                          ),
                                           const SizedBox(height: 6.0),
                                           TextFormField(
                                             initialValue: '2025-05-01',
                                             decoration: InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
-                                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(13.0),
+                                                borderSide: const BorderSide(
+                                                  color: AppColors.line,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -171,16 +184,30 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                     const SizedBox(width: 12.0),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text('To', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+                                          Text(
+                                            'To',
+                                            style: AppTextStyles.bodySmall
+                                                .copyWith(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.plum,
+                                                ),
+                                          ),
                                           const SizedBox(height: 6.0),
                                           TextFormField(
                                             initialValue: '2025-05-26',
                                             decoration: InputDecoration(
                                               fillColor: Colors.white,
                                               filled: true,
-                                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(13.0),
+                                                borderSide: const BorderSide(
+                                                  color: AppColors.line,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -204,19 +231,23 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                   return InkWell(
                                     onTap: () {
                                       setState(() {
-                                        _selectedSections[i] = !_selectedSections[i];
+                                        _selectedSections[i] =
+                                            !_selectedSections[i];
                                       });
                                     },
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4.0,
+                                      ),
                                       child: Row(
                                         children: [
                                           Checkbox(
                                             value: _selectedSections[i],
                                             onChanged: (val) {
                                               setState(() {
-                                                _selectedSections[i] = val ?? false;
+                                                _selectedSections[i] =
+                                                    val ?? false;
                                               });
                                             },
                                             activeColor: AppColors.plum,
@@ -240,7 +271,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
                                 PrimaryButton(
                                   label: 'Preview report',
-                                  onPressed: () => setState(() => _preview = true),
+                                  onPressed: () =>
+                                      setState(() => _preview = true),
                                 ),
                               ],
                             ),
@@ -260,10 +292,15 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                 Row(
                                   children: [
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0,
+                                        vertical: 4.0,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: AppColors.goldLight,
-                                        borderRadius: BorderRadius.circular(20.0),
+                                        borderRadius: BorderRadius.circular(
+                                          20.0,
+                                        ),
                                       ),
                                       child: Text(
                                         'PREVIEW · DEMO DATA',
@@ -289,7 +326,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                 const SizedBox(height: 4.0),
                                 Text(
                                   '1–26 May 2025',
-                                  style: GoogleFonts.dmSans(fontSize: 13.0, color: AppColors.muted),
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 13.0,
+                                    color: AppColors.muted,
+                                  ),
                                 ),
                                 const SizedBox(height: 18.0),
 
@@ -308,7 +348,12 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                   decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     filled: true,
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(13.0),
+                                      borderSide: const BorderSide(
+                                        color: AppColors.line,
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 18.0),
@@ -357,7 +402,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                     Expanded(
                                       child: SecondaryButton(
                                         label: 'Edit report',
-                                        onPressed: () => setState(() => _preview = false),
+                                        onPressed: () =>
+                                            setState(() => _preview = false),
                                       ),
                                     ),
                                     const SizedBox(width: 12.0),
@@ -366,7 +412,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                       child: PrimaryButton(
                                         label: 'Export options',
                                         onPressed: () {
-                                          setState(() => _status = 'Export prepared for this prototype. No file was downloaded.');
+                                          setState(
+                                            () => _status = 'Export prepared for this prototype. No file was downloaded.',
+                                          );
                                         },
                                       ),
                                     ),
@@ -376,7 +424,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                 SecondaryButton(
                                   label: 'Share preview',
                                   onPressed: () {
-                                    setState(() => _status = 'Share preview opened. Nothing was sent.');
+                                    setState(
+                                      () => _status = 'Share preview opened. Nothing was sent.',
+                                    );
                                   },
                                 ),
                               ],
@@ -394,8 +444,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
             InHercueBottomNav(
               currentDestination: InHercueNavDestination.records,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),

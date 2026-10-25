@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../screens/alerts_screen.dart';
 import '../../screens/auth_screen.dart';
 import '../../screens/checkin_screen.dart';
@@ -82,7 +83,8 @@ class AppRoutes {
       passport: (context) => const DetailPageScreen(type: DetailType.passport),
       doctors: (context) => const DetailPageScreen(type: DetailType.doctors),
       summary: (context) => const DetailPageScreen(type: DetailType.summary),
-      reminders: (context) => const DetailPageScreen(type: DetailType.reminders),
+      reminders: (context) =>
+          const DetailPageScreen(type: DetailType.reminders),
       settings: (context) => const DetailPageScreen(type: DetailType.settings),
       community: (context) => const CommunityScreen(),
       records: (context) => const HubScreen(type: HubType.records),
@@ -111,7 +113,8 @@ class DestinationPlaceholderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments;
-    final isDemo = (args is Map && args['isDemo'] == true) ||
+    final isDemo =
+        (args is Map && args['isDemo'] == true) ||
         (routeName == AppRoutes.home &&
             !(AuthStateScope.maybeOf(context)?.isAuthenticated ?? false));
 
@@ -139,7 +142,10 @@ class DestinationPlaceholderScreen extends StatelessWidget {
               children: [
                 if (isDemo) ...[
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 6.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14.0,
+                      vertical: 6.0,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.goldLight,
                       borderRadius: BorderRadius.circular(20.0),
@@ -158,7 +164,10 @@ class DestinationPlaceholderScreen extends StatelessWidget {
                   const SizedBox(height: 16.0),
                 ] else if (user != null) ...[
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 6.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14.0,
+                      vertical: 6.0,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.sageLight,
                       borderRadius: BorderRadius.circular(20.0),
@@ -186,8 +195,8 @@ class DestinationPlaceholderScreen extends StatelessWidget {
                   isDemo
                       ? 'You are viewing inHERcue in demo mode with sample data.\nThis is not an authenticated session and no personal records are saved.\n($routeName)'
                       : (user != null
-                          ? 'Welcome, ${user.name}!\nYour authenticated session is active. Full dashboard is being assembled in the next milestone.\n($routeName)'
-                          : 'Route: $routeName\nScheduled for implementation in upcoming milestone.'),
+                            ? 'Welcome, ${user.name}!\nYour authenticated session is active. Full dashboard is being assembled in the next milestone.\n($routeName)'
+                            : 'Route: $routeName\nScheduled for implementation in upcoming milestone.'),
                   style: AppTextStyles.bodyMedium,
                   textAlign: TextAlign.center,
                 ),

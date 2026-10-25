@@ -19,13 +19,10 @@ class AuthResponseModel {
     final token = data['token'] as String? ?? '';
     final user = UserModel.fromJson(data);
 
-    return AuthResponseModel(
-      token: token,
-      user: user,
-      message: message,
-    );
+    return AuthResponseModel(token: token, user: user, message: message);
   }
 
   @override
-  String toString() => 'AuthResponseModel(user: ${user.email}, hasToken: ${token.isNotEmpty})';
+  String toString() =>
+      'AuthResponseModel(user: ${user.email}, hasToken: ${token.isNotEmpty})';
 }

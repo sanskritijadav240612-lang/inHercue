@@ -18,10 +18,7 @@ import '../widgets/primary_button.dart';
 class MentalWellnessScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const MentalWellnessScreen({
-    super.key,
-    this.onBack,
-  });
+  const MentalWellnessScreen({super.key, this.onBack});
 
   @override
   State<MentalWellnessScreen> createState() => _MentalWellnessScreenState();
@@ -37,9 +34,8 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
   final List<Map<String, String>> _messages = [
     {
       'sender': 'assistant',
-      'text':
-          'Hello, I’m the inHERcue Support Assistant — AI demo. I can offer predefined reflection prompts and point to resources. I’m not a therapist or diagnostic service.'
-    }
+      'text': 'Hello, I’m the inHERcue Support Assistant — AI demo. I can offer predefined reflection prompts and point to resources. I’m not a therapist or diagnostic service.',
+    },
   ];
   final TextEditingController _chatInputController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -73,14 +69,12 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
       if (lower.contains('overwhelm')) {
         _messages.add({
           'sender': 'assistant',
-          'text':
-              'Demo assistant: It sounds like a lot is competing for your attention. Would a short grounding activity or support resource feel more useful?'
+          'text': 'Demo assistant: It sounds like a lot is competing for your attention. Would a short grounding activity or support resource feel more useful?',
         });
       } else {
         _messages.add({
           'sender': 'assistant',
-          'text':
-              'Demo assistant: Thank you for sharing. You might reflect on what feels most important right now, or choose a gentle activity.'
+          'text': 'Demo assistant: Thank you for sharing. You might reflect on what feels most important right now, or choose a gentle activity.',
         });
       }
     });
@@ -133,7 +127,10 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 860.0),
@@ -141,10 +138,7 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // Hub header
-                        Text(
-                          'PRIVATE REFLECTION',
-                          style: AppTextStyles.kicker,
-                        ),
+                        Text('PRIVATE REFLECTION', style: AppTextStyles.kicker),
                         const SizedBox(height: 8.0),
                         Text(
                           'How are you, really?',
@@ -202,8 +196,10 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
 
             InHercueBottomNav(
               currentDestination: InHercueNavDestination.home,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),
@@ -232,7 +228,13 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
           ),
           const SizedBox(height: 16.0),
 
-          Text('Mood', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+          Text(
+            'Mood',
+            style: AppTextStyles.bodySmall.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.plum,
+            ),
+          ),
           const SizedBox(height: 6.0),
           DropdownButtonFormField<String>(
             initialValue: _mood.isNotEmpty ? _mood : null,
@@ -240,7 +242,10 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(13.0),
+                borderSide: const BorderSide(color: AppColors.line),
+              ),
             ),
             items: const [
               DropdownMenuItem(value: 'Low', child: Text('Low')),
@@ -251,7 +256,13 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
           ),
           const SizedBox(height: 14.0),
 
-          Text('Stress', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+          Text(
+            'Stress',
+            style: AppTextStyles.bodySmall.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.plum,
+            ),
+          ),
           const SizedBox(height: 6.0),
           DropdownButtonFormField<String>(
             initialValue: _stress.isNotEmpty ? _stress : null,
@@ -259,7 +270,10 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
             decoration: InputDecoration(
               fillColor: Colors.white,
               filled: true,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(13.0),
+                borderSide: const BorderSide(color: AppColors.line),
+              ),
             ),
             items: const [
               DropdownMenuItem(value: 'Low', child: Text('Low')),
@@ -270,7 +284,13 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
           ),
           const SizedBox(height: 14.0),
 
-          Text('Sleep and energy', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+          Text(
+            'Sleep and energy',
+            style: AppTextStyles.bodySmall.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.plum,
+            ),
+          ),
           const SizedBox(height: 6.0),
           TextFormField(
             controller: _sleepController,
@@ -278,12 +298,21 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
               hintText: 'e.g. Restful sleep, steady energy',
               fillColor: Colors.white,
               filled: true,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(13.0),
+                borderSide: const BorderSide(color: AppColors.line),
+              ),
             ),
           ),
           const SizedBox(height: 14.0),
 
-          Text('Private journal', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600, color: AppColors.plum)),
+          Text(
+            'Private journal',
+            style: AppTextStyles.bodySmall.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.plum,
+            ),
+          ),
           const SizedBox(height: 6.0),
           TextFormField(
             controller: _journalController,
@@ -292,7 +321,10 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
               hintText: 'Optional reflection',
               fillColor: Colors.white,
               filled: true,
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(13.0), borderSide: const BorderSide(color: AppColors.line)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(13.0),
+                borderSide: const BorderSide(color: AppColors.line),
+              ),
             ),
           ),
           const SizedBox(height: 20.0),
@@ -323,7 +355,10 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 9.0, vertical: 4.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 9.0,
+                  vertical: 4.0,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.goldLight,
                   borderRadius: BorderRadius.circular(20.0),
@@ -375,18 +410,28 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
                 final msg = _messages[i];
                 final isUser = msg['sender'] == 'user';
                 return Align(
-                  alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: isUser
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 8.0),
-                    padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14.0,
+                      vertical: 10.0,
+                    ),
                     decoration: BoxDecoration(
-                      color: isUser ? AppColors.rose : Colors.white.withValues(alpha: 0.12),
+                      color: isUser
+                          ? AppColors.rose
+                          : Colors.white.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(14.0),
                     ),
                     constraints: const BoxConstraints(maxWidth: 320.0),
                     child: Text(
                       msg['text']!,
-                      style: GoogleFonts.dmSans(fontSize: 13.0, color: Colors.white),
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13.0,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 );
@@ -399,25 +444,31 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: [
-                'I feel overwhelmed',
-                'Show a grounding activity',
-                'Find support resources',
-              ].map((p) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: ActionChip(
-                    label: Text(p),
-                    backgroundColor: Colors.transparent,
-                    labelStyle: GoogleFonts.dmSans(color: Colors.white, fontSize: 11.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      side: BorderSide(color: Colors.white.withValues(alpha: 0.35)),
-                    ),
-                    onPressed: () => _sendMessage(p),
-                  ),
-                );
-              }).toList(),
+              children:
+                  [
+                    'I feel overwhelmed',
+                    'Show a grounding activity',
+                    'Find support resources',
+                  ].map((p) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: ActionChip(
+                        label: Text(p),
+                        backgroundColor: Colors.transparent,
+                        labelStyle: GoogleFonts.dmSans(
+                          color: Colors.white,
+                          fontSize: 11.0,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          side: BorderSide(
+                            color: Colors.white.withValues(alpha: 0.35),
+                          ),
+                        ),
+                        onPressed: () => _sendMessage(p),
+                      ),
+                    );
+                  }).toList(),
             ),
           ),
           const SizedBox(height: 12.0),
@@ -433,8 +484,14 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
                     hintText: 'Write a message',
                     fillColor: Colors.white,
                     filled: true,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10.0),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0), borderSide: BorderSide.none),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 14.0,
+                      vertical: 10.0,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                   onSubmitted: (_) => _sendMessage(),
                 ),
@@ -445,8 +502,13 @@ class _MentalWellnessScreenState extends State<MentalWellnessScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.rose,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 14.0,
+                  ),
                 ),
                 child: const Text('Send'),
               ),

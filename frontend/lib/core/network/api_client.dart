@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import '../config/api_config.dart';
 import 'api_exceptions.dart';
 
@@ -38,9 +40,7 @@ class ApiClient {
         message: 'Network connection failed: ${e.message}',
       );
     } on http.ClientException catch (e) {
-      throw NetworkException(
-        message: 'HTTP client error: ${e.message}',
-      );
+      throw NetworkException(message: 'HTTP client error: ${e.message}');
     }
   }
 
@@ -70,9 +70,37 @@ class ApiClient {
         message: 'Network connection failed: ${e.message}',
       );
     } on http.ClientException catch (e) {
-      throw NetworkException(
-        message: 'HTTP client error: ${e.message}',
+      throw NetworkException(message: 'HTTP client error: ${e.message}');
+    }
+  }
+
+  /// Performs an HTTP PUT request to the specified [endpoint].
+  Future<Map<String, dynamic>> put(
+    String endpoint, {
+    Map<String, dynamic>? body,
+    String? token,
+    Map<String, String>? headers,
+  }) async {
+    final uri = Uri.parse('${ApiConfig.baseUrl}$endpoint');
+    final mergedHeaders = _buildHeaders(token: token, customHeaders: headers);
+    final encodedBody = body != null ? jsonEncode(body) : null;
+
+    try {
+      final response = await _client
+          .put(uri, headers: mergedHeaders, body: encodedBody)
+          .timeout(ApiConfig.receiveTimeout);
+
+      return _handleResponse(response);
+    } on TimeoutException {
+      throw const NetworkException(
+        message: 'Request timed out while waiting for server response.',
       );
+    } on SocketException catch (e) {
+      throw NetworkException(
+        message: 'Network connection failed: ${e.message}',
+      );
+    } on http.ClientException catch (e) {
+      throw NetworkException(message: 'HTTP client error: ${e.message}');
     }
   }
 

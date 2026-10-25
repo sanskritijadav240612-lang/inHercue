@@ -44,6 +44,24 @@ class UserModel {
     };
   }
 
+  UserModel copyWith({
+    String? userId,
+    String? email,
+    String? name,
+    int? age,
+    bool? onboardingCompleted,
+    DateTime? createdAt,
+  }) {
+    return UserModel(
+      userId: userId ?? this.userId,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      age: age ?? this.age,
+      onboardingCompleted: onboardingCompleted ?? this.onboardingCompleted,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
   @override
   String toString() => 'UserModel(userId: $userId, email: $email, name: $name)';
 }

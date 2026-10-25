@@ -18,10 +18,7 @@ import '../widgets/in_hercue_topbar.dart';
 class AlertsScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const AlertsScreen({
-    super.key,
-    this.onBack,
-  });
+  const AlertsScreen({super.key, this.onBack});
 
   @override
   State<AlertsScreen> createState() => _AlertsScreenState();
@@ -93,17 +90,17 @@ class _AlertsScreenState extends State<AlertsScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 650.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          '2 NEW',
-                          style: AppTextStyles.kicker,
-                        ),
+                        Text('2 NEW', style: AppTextStyles.kicker),
                         const SizedBox(height: 8.0),
                         Text(
                           'Alerts & reminders',
@@ -170,7 +167,8 @@ class _AlertsScreenState extends State<AlertsScreen> {
                                         const SizedBox(width: 14.0),
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 a[0].toUpperCase(),
@@ -194,7 +192,9 @@ class _AlertsScreenState extends State<AlertsScreen> {
                                           ),
                                         ),
                                         InHercueIcon(
-                                          icon: isOpen ? InHercueIconType.chevron : InHercueIconType.chevron,
+                                          icon: isOpen
+                                              ? InHercueIconType.chevron
+                                              : InHercueIconType.chevron,
                                           size: 16.0,
                                           color: AppColors.muted,
                                         ),
@@ -204,9 +204,15 @@ class _AlertsScreenState extends State<AlertsScreen> {
                                 ),
                                 if (isOpen)
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(73.0, 0.0, 20.0, 18.0),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      73.0,
+                                      0.0,
+                                      20.0,
+                                      18.0,
+                                    ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           a[2],
@@ -220,17 +226,23 @@ class _AlertsScreenState extends State<AlertsScreen> {
                                         InkWell(
                                           onTap: () {
                                             if (i == 0) {
-                                              Navigator.of(context).pushNamed(AppRoutes.urgent);
+                                              Navigator.of(context)
+                                                  .pushNamed(AppRoutes.urgent);
                                             } else if (i == 1) {
-                                              Navigator.of(context).pushNamed(AppRoutes.reminders);
+                                              Navigator.of(
+                                                context,
+                                              ).pushNamed(AppRoutes.reminders);
                                             } else {
-                                              Navigator.of(context).pushNamed(AppRoutes.period);
+                                              Navigator.of(context)
+                                                  .pushNamed(AppRoutes.period);
                                             }
                                           },
                                           child: Text(
                                             i == 0
                                                 ? 'View urgent help →'
-                                                : (i == 1 ? 'Manage reminder →' : 'Review cycle →'),
+                                                : (i == 1
+                                                      ? 'Manage reminder →'
+                                                      : 'Review cycle →'),
                                             style: GoogleFonts.dmSans(
                                               fontSize: 13.0,
                                               fontWeight: FontWeight.w600,
@@ -256,8 +268,10 @@ class _AlertsScreenState extends State<AlertsScreen> {
 
             InHercueBottomNav(
               currentDestination: InHercueNavDestination.profile,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),

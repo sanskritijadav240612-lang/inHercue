@@ -75,9 +75,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   AuthState _resolveAuthState() {
-    return widget.authState ??
-        AuthStateScope.maybeOf(context) ??
-        AuthState();
+    return widget.authState ?? AuthStateScope.maybeOf(context) ?? AuthState();
   }
 
   void _toggleMode() {
@@ -129,8 +127,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
       if (password.length < 8 || !hasNumber || !hasSpecial) {
         setState(() {
-          _clientError =
-              'Password must be at least 8 characters long, contain at least one number and one special character.';
+          _clientError = 'Password must be at least 8 characters long, contain at least one number and one special character.';
         });
         return;
       }
@@ -140,7 +137,11 @@ class _AuthScreenState extends State<AuthScreen> {
     if (_isLogin) {
       success = await authState.login(email: email, password: password);
     } else {
-      success = await authState.register(name: name, email: email, password: password);
+      success = await authState.register(
+        name: name,
+        email: email,
+        password: password,
+      );
     }
 
     if (!mounted) return;
@@ -201,25 +202,22 @@ class _AuthScreenState extends State<AuthScreen> {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  AppColors.ivory,
-                  AppColors.roseLight,
-                ],
+                colors: [AppColors.ivory, AppColors.roseLight],
               ),
             ),
             child: SafeArea(
               child: Column(
                 children: [
                   // Topbar with Back button and Urgent Help
-                  InHercueTopbar(
-                    onBack: _handleBack,
-                    onUrgent: _handleUrgent,
-                  ),
+                  InHercueTopbar(onBack: _handleBack, onUrgent: _handleUrgent),
 
                   // Scrollable auth card
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 24.0,
+                      ),
                       child: Center(
                         child: Container(
                           width: cardWidth,
@@ -245,174 +243,180 @@ class _AuthScreenState extends State<AuthScreen> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                  // Kicker
-                                  Text(
-                                    _isLogin ? 'WELCOME BACK' : 'YOUR SPACE, YOUR PACE',
-                                    style: AppTextStyles.kicker,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  const SizedBox(height: 10.0),
+                                // Kicker
+                                Text(
+                                  _isLogin
+                                      ? 'WELCOME BACK'
+                                      : 'YOUR SPACE, YOUR PACE',
+                                  style: AppTextStyles.kicker,
+                                  textAlign: TextAlign.left,
+                                ),
+                                const SizedBox(height: 10.0),
 
-                                  // H2 Title
-                                  Text(
-                                    _isLogin ? 'Good to see you.' : 'Create your account',
-                                    style: AppTextStyles.screenHeading.copyWith(
-                                      fontSize: 32.0,
-                                      height: 1.18,
-                                    ),
-                                    textAlign: TextAlign.left,
+                                // H2 Title
+                                Text(
+                                  _isLogin
+                                      ? 'Good to see you.'
+                                      : 'Create your account',
+                                  style: AppTextStyles.screenHeading.copyWith(
+                                    fontSize: 32.0,
+                                    height: 1.18,
                                   ),
-                                  const SizedBox(height: 10.0),
+                                  textAlign: TextAlign.left,
+                                ),
+                                const SizedBox(height: 10.0),
 
-                                  // Subtitle Muted
-                                  Text(
-                                    _isLogin
-                                        ? 'Continue your wellness journey.'
-                                        : 'A private place to understand your whole health.',
-                                    style: AppTextStyles.bodyMedium.copyWith(
+                                // Subtitle Muted
+                                Text(
+                                  _isLogin ? 'Continue your wellness journey.' : 'A private place to understand your whole health.',
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    color: AppColors.muted,
+                                    height: 1.6,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                const SizedBox(height: 24.0),
+
+                                // First Name Field (Register only)
+                                if (!_isLogin) ...[
+                                  _buildFieldLabel('First name'),
+                                  const SizedBox(height: 8.0),
+                                  _buildTextInput(
+                                    controller: _nameController,
+                                    hintText: 'How should we greet you?',
+                                    enabled: !isLoading,
+                                    keyboardType: TextInputType.name,
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                  ),
+                                  const SizedBox(height: 18.0),
+                                ],
+
+                                // Email Address Field
+                                _buildFieldLabel('Email address'),
+                                const SizedBox(height: 8.0),
+                                _buildTextInput(
+                                  controller: _emailController,
+                                  hintText: 'you@example.com',
+                                  enabled: !isLoading,
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                                const SizedBox(height: 18.0),
+
+                                // Password Field
+                                _buildFieldLabel('Password'),
+                                const SizedBox(height: 8.0),
+                                _buildTextInput(
+                                  controller: _passwordController,
+                                  hintText: _isLogin ? 'Enter your password' : 'At least 8 characters (1 number, 1 special)',
+                                  enabled: !isLoading,
+                                  obscureText: _obscurePassword,
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _obscurePassword
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined,
+                                      size: 20.0,
                                       color: AppColors.muted,
-                                      height: 1.6,
                                     ),
-                                    textAlign: TextAlign.left,
+                                    onPressed: () {
+                                      setState(() {
+                                        _obscurePassword = !_obscurePassword;
+                                      });
+                                    },
                                   ),
-                                  const SizedBox(height: 24.0),
+                                ),
+                                const SizedBox(height: 18.0),
 
-                                  // First Name Field (Register only)
-                                  if (!_isLogin) ...[
-                                    _buildFieldLabel('First name'),
-                                    const SizedBox(height: 8.0),
-                                    _buildTextInput(
-                                      controller: _nameController,
-                                      hintText: 'How should we greet you?',
-                                      enabled: !isLoading,
-                                      keyboardType: TextInputType.name,
-                                      textCapitalization: TextCapitalization.words,
+                                // Error Banner (.error)
+                                if (activeError != null &&
+                                    activeError.isNotEmpty) ...[
+                                  Container(
+                                    padding: const EdgeInsets.all(12.0),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFFAE8E7),
+                                      borderRadius: BorderRadius.circular(10.0),
                                     ),
-                                    const SizedBox(height: 18.0),
-                                  ],
-
-                                  // Email Address Field
-                                  _buildFieldLabel('Email address'),
-                                  const SizedBox(height: 8.0),
-                                  _buildTextInput(
-                                    controller: _emailController,
-                                    hintText: 'you@example.com',
-                                    enabled: !isLoading,
-                                    keyboardType: TextInputType.emailAddress,
-                                  ),
-                                  const SizedBox(height: 18.0),
-
-                                  // Password Field
-                                  _buildFieldLabel('Password'),
-                                  const SizedBox(height: 8.0),
-                                  _buildTextInput(
-                                    controller: _passwordController,
-                                    hintText: _isLogin
-                                        ? 'Enter your password'
-                                        : 'At least 8 characters (1 number, 1 special)',
-                                    enabled: !isLoading,
-                                    obscureText: _obscurePassword,
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        _obscurePassword
-                                            ? Icons.visibility_off_outlined
-                                            : Icons.visibility_outlined,
-                                        size: 20.0,
-                                        color: AppColors.muted,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _obscurePassword = !_obscurePassword;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(height: 18.0),
-
-                                  // Error Banner (.error)
-                                  if (activeError != null && activeError.isNotEmpty) ...[
-                                    Container(
-                                      padding: const EdgeInsets.all(12.0),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFFAE8E7),
-                                        borderRadius: BorderRadius.circular(10.0),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Icon(
-                                            Icons.error_outline,
-                                            size: 16.0,
-                                            color: AppColors.danger,
-                                          ),
-                                          const SizedBox(width: 8.0),
-                                          Expanded(
-                                            child: Text(
-                                              activeError,
-                                              style: GoogleFonts.dmSans(
-                                                fontSize: 12.0,
-                                                color: AppColors.danger,
-                                                height: 1.4,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 18.0),
-                                  ],
-
-                                  // Submit Button
-                                  PrimaryButton(
-                                    label: _isLogin ? 'Log in' : 'Create account',
-                                    showArrow: true,
-                                    isLoading: isLoading,
-                                    onPressed: isLoading ? null : _submit,
-                                  ),
-                                  const SizedBox(height: 14.0),
-
-                                  // Mode Toggle Button (.text-button)
-                                  Semantics(
-                                    button: true,
-                                    label: _isLogin
-                                        ? 'Switch to create an account'
-                                        : 'Switch to log in',
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: isLoading ? null : _toggleMode,
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 14.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Icon(
+                                          Icons.error_outline,
+                                          size: 16.0,
+                                          color: AppColors.danger,
+                                        ),
+                                        const SizedBox(width: 8.0),
+                                        Expanded(
                                           child: Text(
-                                            _isLogin
-                                                ? 'New here? Create an account'
-                                                : 'Already have an account? Log in',
+                                            activeError,
                                             style: GoogleFonts.dmSans(
-                                              fontSize: 13.0,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.plum,
-                                              decoration: TextDecoration.underline,
-                                              decorationColor: AppColors.plum,
+                                              fontSize: 12.0,
+                                              color: AppColors.danger,
+                                              height: 1.4,
                                             ),
-                                            textAlign: TextAlign.center,
                                           ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 18.0),
+                                ],
+
+                                // Submit Button
+                                PrimaryButton(
+                                  label: _isLogin ? 'Log in' : 'Create account',
+                                  showArrow: true,
+                                  isLoading: isLoading,
+                                  onPressed: isLoading ? null : _submit,
+                                ),
+                                const SizedBox(height: 14.0),
+
+                                // Mode Toggle Button (.text-button)
+                                Semantics(
+                                  button: true,
+                                  label: _isLogin
+                                      ? 'Switch to create an account'
+                                      : 'Switch to log in',
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: isLoading ? null : _toggleMode,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 14.0,
+                                        ),
+                                        child: Text(
+                                          _isLogin
+                                              ? 'New here? Create an account'
+                                              : 'Already have an account? Log in',
+                                          style: GoogleFonts.dmSans(
+                                            fontSize: 13.0,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.plum,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor: AppColors.plum,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          );
+          ),
+        );
       },
     );
   }
@@ -443,10 +447,7 @@ class _AuthScreenState extends State<AuthScreen> {
       obscureText: obscureText,
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
-      style: GoogleFonts.dmSans(
-        fontSize: 14.0,
-        color: AppColors.ink,
-      ),
+      style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.ink),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: GoogleFonts.dmSans(
@@ -455,7 +456,10 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
         filled: true,
         fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 15.0,
+        ),
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(13.0),
@@ -471,7 +475,10 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(13.0),
-          borderSide: BorderSide(color: AppColors.line.withValues(alpha: 0.5), width: 1.0),
+          borderSide: BorderSide(
+            color: AppColors.line.withValues(alpha: 0.5),
+            width: 1.0,
+          ),
         ),
       ),
     );

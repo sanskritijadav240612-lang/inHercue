@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../core/navigation/app_routes.dart';
 import '../core/theme/app_colors.dart';
 import '../core/theme/app_text_styles.dart';
+import '../data/models/passport_model.dart';
+import '../data/services/passport_api_service.dart';
+import '../state/auth_state.dart';
 import '../widgets/in_hercue_bottom_nav.dart';
 import '../widgets/in_hercue_icon.dart';
 import '../widgets/in_hercue_topbar.dart';
@@ -53,6 +56,243 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
   String _range = 'Week';
   String _searchQuery = '';
   int _tipIndex = 0;
+
+  final PassportApiService _passportService = PassportApiService();
+  PassportModel? _passport;
+  bool _loadingPassport = false;
+  String? _loadedToken;
+  String? _passportError;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.type == DetailType.passport) {
+      final authState = AuthStateScope.maybeOf(context);
+      final currentToken = authState?.token;
+      if (currentToken != _loadedToken) {
+        _loadedToken = currentToken;
+        if (currentToken == null || currentToken.isEmpty) {
+          setState(() {
+            _passport = null;
+            _passportError = null;
+          });
+        } else {
+          _fetchPassport(currentToken);
+        }
+      }
+    }
+  }
+
+  Future<void> _fetchPassport(String token) async {
+    setState(() {
+      _loadingPassport = true;
+      _passportError = null;
+    });
+
+    try {
+      final passport = await _passportService.getPassport(token);
+      if (mounted && _loadedToken == token) {
+        setState(() {
+          _passport = passport;
+        });
+      }
+    } catch (e) {
+      if (mounted && _loadedToken == token) {
+        setState(() {
+          _passportError = 'Could not load Health Passport data';
+        });
+      }
+    } finally {
+      if (mounted && _loadedToken == token) {
+        setState(() {
+          _loadingPassport = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _showAddPassportItemDialog() async {
+    final authState = AuthStateScope.maybeOf(context);
+    final token = authState?.token;
+    final textController = TextEditingController();
+    String category = 'condition'; // 'condition', 'allergy', 'medication'
+
+    await showDialog(
+      context: context,
+      builder: (dialogCtx) => StatefulBuilder(
+        builder: (ctx, setDialogState) => AlertDialog(
+          backgroundColor: AppColors.ivory,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          title: Text(
+            'Add Health Information',
+            style: GoogleFonts.playfairDisplay(
+              fontWeight: FontWeight.w600,
+              color: AppColors.plum,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Category',
+                style: GoogleFonts.dmSans(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.muted,
+                ),
+              ),
+              const SizedBox(height: 6.0),
+              DropdownButtonFormField<String>(
+                initialValue: category,
+                items: const [
+                  DropdownMenuItem(
+                    value: 'condition',
+                    child: Text('Confirmed Condition'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'allergy',
+                    child: Text('Allergy / Reaction'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'medication',
+                    child: Text('Current Medication'),
+                  ),
+                ],
+                onChanged: (val) {
+                  if (val != null) setDialogState(() => category = val);
+                },
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: const BorderSide(color: AppColors.line),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14.0),
+              Text(
+                'Item Name / Description',
+                style: GoogleFonts.dmSans(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.muted,
+                ),
+              ),
+              const SizedBox(height: 6.0),
+              TextField(
+                controller: textController,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: 'e.g., Asthma, Penicillin, Iron supplement',
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    borderSide: const BorderSide(color: AppColors.line),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogCtx).pop(),
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.dmSans(color: AppColors.muted),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final value = textController.text.trim();
+                if (value.isEmpty) return;
+                Navigator.of(dialogCtx).pop();
+
+                if (token != null && token.isNotEmpty) {
+                  setState(() => _loadingPassport = true);
+                  try {
+                    List<String> conditions = List.from(
+                      _passport?.diagnosedConditions ?? [],
+                    );
+                    List<String> allergies = List.from(
+                      _passport?.allergies ?? [],
+                    );
+                    List<String> meds = List.from(
+                      _passport?.currentMedications ?? [],
+                    );
+
+                    if (category == 'condition') conditions.add(value);
+                    if (category == 'allergy') allergies.add(value);
+                    if (category == 'medication') meds.add(value);
+
+                    final updated = await _passportService.savePassport(
+                      token: token,
+                      diagnosedConditions: conditions,
+                      allergies: allergies,
+                      currentMedications: meds,
+                    );
+
+                    if (mounted) {
+                      setState(() {
+                        _passport = updated;
+                        _saved = true;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: AppColors.sage,
+                          content: Text(
+                            'Added "$value" to Health Passport',
+                            style: GoogleFonts.dmSans(color: Colors.white),
+                          ),
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: AppColors.danger,
+                          content: Text(
+                            'Could not save item: ${e.toString()}',
+                            style: GoogleFonts.dmSans(color: Colors.white),
+                          ),
+                        ),
+                      );
+                    }
+                  } finally {
+                    if (mounted) setState(() => _loadingPassport = false);
+                  }
+                } else {
+                  setState(() => _saved = true);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: AppColors.sage,
+                      content: Text(
+                        'Item "$value" added in demo mode',
+                        style: GoogleFonts.dmSans(color: Colors.white),
+                      ),
+                    ),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.plum,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
+              ),
+              child: const Text('Save Item'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   static const List<List<String>> _wellnessTips = [
     [
@@ -648,18 +888,57 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
         );
 
       case DetailType.passport:
+        final conditionsText =
+            _passport != null && _passport!.diagnosedConditions.isNotEmpty
+            ? _passport!.diagnosedConditions.join(' · ')
+            : 'No conditions added';
+        final allergiesText =
+            _passport != null && _passport!.allergies.isNotEmpty
+            ? _passport!.allergies.join(' · ')
+            : 'None recorded';
+        final medsText =
+            _passport != null && _passport!.currentMedications.isNotEmpty
+            ? _passport!.currentMedications.join(' · ')
+            : 'No current medications added';
+        final focusText = _passport?.focus ?? 'Cycle tracking & rhythm';
+        final cycleText = _passport?.cycleType ?? 'Regular (26–32 days)';
+
         final passportItems = [
-          ['Confirmed conditions', 'No conditions added'],
-          ['Allergies & reactions', 'Pollen · user-entered'],
-          ['Current medications', 'No current medications added'],
-          ['Previous medications', 'No history added'],
+          ['Health Focus', focusText],
+          ['Cycle Profile', cycleText],
+          ['Confirmed conditions', conditionsText],
+          ['Allergies & reactions', allergiesText],
+          ['Current medications', medsText],
           ['Medical documents', '0 uploaded documents'],
-          ['Health notes', '2 demo notes'],
+          ['Health notes', 'User-controlled verified records'],
         ];
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (_loadingPassport)
+              const Padding(
+                padding: EdgeInsets.only(bottom: 12.0),
+                child: LinearProgressIndicator(color: AppColors.plum),
+              ),
+            if (_passportError != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.roseLight,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Text(
+                    _passportError!,
+                    style: GoogleFonts.dmSans(
+                      color: AppColors.danger,
+                      fontSize: 13.0,
+                    ),
+                  ),
+                ),
+              ),
             Container(
               padding: const EdgeInsets.all(22.0),
               decoration: BoxDecoration(
@@ -719,26 +998,28 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item[0],
-                              style: GoogleFonts.dmSans(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.plum,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item[0],
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.plum,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 2.0),
-                            Text(
-                              item[1],
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12.0,
-                                color: AppColors.muted,
+                              const SizedBox(height: 2.0),
+                              Text(
+                                item[1],
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 12.0,
+                                  color: AppColors.muted,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         Text(
                           isSelected ? 'Selected' : 'View / edit →',
@@ -764,7 +1045,7 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Text(
-                  '$_selectedItem selected. Add, edit and delete controls are available in this prototype section.',
+                  '$_selectedItem selected. Tap "Add health information" below to record new entries.',
                   style: GoogleFonts.dmSans(
                     color: const Color(0xFF3D6645),
                     fontSize: 13.0,
@@ -775,10 +1056,8 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
 
             const SizedBox(height: 18.0),
             PrimaryButton(
-              label: _saved
-                  ? 'Manual entry form ready'
-                  : 'Add health information',
-              onPressed: () => setState(() => _saved = true),
+              label: 'Add health information',
+              onPressed: _showAddPassportItemDialog,
             ),
           ],
         );

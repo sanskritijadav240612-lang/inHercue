@@ -1,19 +1,15 @@
 import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../core/constants/app_strings.dart';
 import '../core/theme/app_colors.dart';
 import 'in_hercue_icon.dart';
 
 /// Available destinations for the inHercue bottom navigation bar.
-enum InHercueNavDestination {
-  home,
-  records,
-  newEntry,
-  learn,
-  profile,
-}
+enum InHercueNavDestination { home, records, newEntry, learn, profile }
 
 /// The official bottom navigation bar for inHercue.
 /// Faithfully reproduces the BottomNav component from the Figma reference:
@@ -52,10 +48,13 @@ class InHercueBottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     final bottomPadding = math.max(7.0, bottomInset);
-    final totalHeight = barHeight + (bottomInset > 7.0 ? bottomInset - 7.0 : 0.0);
+    final totalHeight =
+        barHeight + (bottomInset > 7.0 ? bottomInset - 7.0 : 0.0);
 
     return SizedBox(
-      height: totalHeight + 18.0, // extra 18px allows central button to pop up above the bar
+      height:
+          totalHeight +
+          18.0, // extra 18px allows central button to pop up above the bar
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.bottomCenter,

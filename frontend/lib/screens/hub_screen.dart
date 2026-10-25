@@ -9,11 +9,7 @@ import '../widgets/in_hercue_icon.dart';
 import '../widgets/in_hercue_topbar.dart';
 import '../widgets/mini_chart_widget.dart';
 
-enum HubType {
-  records,
-  learn,
-  profile,
-}
+enum HubType { records, learn, profile }
 
 /// Navigation Hub screen for inHERcue (Records, Learn, and Profile).
 /// Directly mirrors the `Hub({ screen, go })` component from the React reference:
@@ -26,11 +22,7 @@ class HubScreen extends StatelessWidget {
   final HubType type;
   final VoidCallback? onBack;
 
-  const HubScreen({
-    super.key,
-    required this.type,
-    this.onBack,
-  });
+  const HubScreen({super.key, required this.type, this.onBack});
 
   String get _title {
     switch (type) {
@@ -190,17 +182,17 @@ class HubScreen extends StatelessWidget {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 650.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          _kicker,
-                          style: AppTextStyles.kicker,
-                        ),
+                        Text(_kicker, style: AppTextStyles.kicker),
                         const SizedBox(height: 8.0),
                         Text(
                           _title,
@@ -234,7 +226,9 @@ class HubScreen extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: InkWell(
-                              onTap: () => Navigator.of(context).pushNamed(item['route'] as String),
+                              onTap: () =>
+                                  Navigator.of(context)
+                                      .pushNamed(item['route'] as String),
                               borderRadius: BorderRadius.circular(16.0),
                               child: Container(
                                 padding: const EdgeInsets.all(17.0),
@@ -254,7 +248,8 @@ class HubScreen extends StatelessWidget {
                                       ),
                                       child: Center(
                                         child: InHercueIcon(
-                                          icon: item['icon'] as InHercueIconType,
+                                          icon:
+                                              item['icon'] as InHercueIconType,
                                           size: 20.0,
                                           color: AppColors.plum,
                                         ),
@@ -263,7 +258,8 @@ class HubScreen extends StatelessWidget {
                                     const SizedBox(width: 14.0),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             item['title'] as String,
@@ -306,8 +302,10 @@ class HubScreen extends StatelessWidget {
 
             InHercueBottomNav(
               currentDestination: _navDestination,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),
