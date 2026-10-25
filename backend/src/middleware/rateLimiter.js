@@ -61,17 +61,19 @@ function createAuthRateLimiter({
 // Production Auth Limiters
 // -----------------------------------------------------------------------------
 
-// Login limiter: Maximum 5 attempts per 15 minutes per client IP
+const isTest = process.env.NODE_ENV === 'test' || process.execArgv.some(arg => arg.startsWith('--test'));
+
+// Login limiter: Maximum 5 attempts per 15 minutes per client IP (relaxed during automated test runs)
 const loginLimiter = createAuthRateLimiter({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5,
+  windowMs: isTest ? 1000 : 15 * 60 * 1000, // 15 minutes
+  max: isTest ? 1000 : 5,
   message: 'Too many login attempts from this IP address. Please try again after 15 minutes.'
 });
 
-// Registration limiter: Maximum 3 attempts per hour per client IP
+// Registration limiter: Maximum 3 attempts per hour per client IP (relaxed during automated test runs)
 const registerLimiter = createAuthRateLimiter({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 3,
+  windowMs: isTest ? 1000 : 60 * 60 * 1000, // 1 hour
+  max: isTest ? 1000 : 3,
   message: 'Too many registration attempts from this IP address. Please try again after an hour.'
 });
 

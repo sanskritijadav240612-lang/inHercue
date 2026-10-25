@@ -373,7 +373,11 @@ describe('HerSignal API - Authentication Module Tests', () => {
 
       // Succeeds on valid, strong custom secret in production
       assert.doesNotThrow(() => {
-        validateEnv({ nodeEnv: 'production', jwtSecret: 'a_very_strong_custom_production_secret_key_12345!' });
+        validateEnv({
+          nodeEnv: 'production',
+          jwtSecret: 'a_very_strong_custom_production_secret_key_12345!',
+          corsOrigin: 'https://app.inhercue.example.com'
+        });
       });
 
       // Preserves normal development workflow with default placeholder
