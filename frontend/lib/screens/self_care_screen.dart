@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,10 +18,7 @@ import '../widgets/in_hercue_topbar.dart';
 class SelfCareScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const SelfCareScreen({
-    super.key,
-    this.onBack,
-  });
+  const SelfCareScreen({super.key, this.onBack});
 
   @override
   State<SelfCareScreen> createState() => _SelfCareScreenState();
@@ -31,32 +30,32 @@ class _SelfCareScreenState extends State<SelfCareScreen>
     [
       'Breathing reset',
       '3 min',
-      'Breathe in slowly, pause gently, and breathe out at a comfortable pace.'
+      'Breathe in slowly, pause gently, and breathe out at a comfortable pace.',
     ],
     [
       '5–4–3–2–1 grounding',
       '5 min',
-      'Notice five things you see, four you feel, three you hear, two you smell and one you taste.'
+      'Notice five things you see, four you feel, three you hear, two you smell and one you taste.',
     ],
     [
       'Evening wind-down',
       '10 min',
-      'Lower stimulation and follow a familiar, comfortable sequence.'
+      'Lower stimulation and follow a familiar, comfortable sequence.',
     ],
     [
       'Gentle movement',
       '6 min',
-      'Move within a comfortable range and stop if anything hurts.'
+      'Move within a comfortable range and stop if anything hurts.',
     ],
     [
       'Period comfort',
       '8 min',
-      'Choose warmth, rest or another non-medical comfort that suits you.'
+      'Choose warmth, rest or another non-medical comfort that suits you.',
     ],
     [
       'Journal pause',
       '5 min',
-      'Write without editing: what do I need less of, and more of?'
+      'Write without editing: what do I need less of, and more of?',
     ],
   ];
 
@@ -159,7 +158,10 @@ class _SelfCareScreenState extends State<SelfCareScreen>
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 860.0),
@@ -226,8 +228,10 @@ class _SelfCareScreenState extends State<SelfCareScreen>
 
             InHercueBottomNav(
               currentDestination: InHercueNavDestination.learn,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),
@@ -255,7 +259,9 @@ class _SelfCareScreenState extends State<SelfCareScreen>
               decoration: BoxDecoration(
                 color: isActive ? AppColors.plum : AppColors.paper,
                 borderRadius: BorderRadius.circular(14.0),
-                border: Border.all(color: isActive ? AppColors.plum : AppColors.line),
+                border: Border.all(
+                  color: isActive ? AppColors.plum : AppColors.line,
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -275,7 +281,9 @@ class _SelfCareScreenState extends State<SelfCareScreen>
                     a[1],
                     style: GoogleFonts.dmSans(
                       fontSize: 12.0,
-                      color: isActive ? Colors.white.withValues(alpha: 0.7) : AppColors.muted,
+                      color: isActive
+                          ? Colors.white.withValues(alpha: 0.7)
+                          : AppColors.muted,
                     ),
                   ),
                 ],
@@ -325,25 +333,41 @@ class _SelfCareScreenState extends State<SelfCareScreen>
 
           // Timer Orb
           Center(
-            child: RotationTransition(
-              turns: _status == 'running' ? _animController : const AlwaysStoppedAnimation(0),
-              child: Container(
-                width: 130.0,
-                height: 130.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.roseLight, width: 10.0),
-                ),
-                child: Center(
-                  child: Text(
-                    orbText,
-                    style: GoogleFonts.dmSans(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.plum,
+            child: SizedBox(
+              width: 130.0,
+              height: 130.0,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Spinning circular ring with rose active arc
+                  RotationTransition(
+                    turns: _status == 'running'
+                        ? _animController
+                        : const AlwaysStoppedAnimation(0),
+                    child: const CustomPaint(
+                      size: Size(130.0, 130.0),
+                      painter: _TimerOrbPainter(
+                        trackColor: AppColors.roseLight,
+                        activeColor: AppColors.rose,
+                      ),
                     ),
                   ),
-                ),
+                  // Upright, static countdown / status text
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Text(
+                        orbText,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.dmSans(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.plum,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -351,7 +375,11 @@ class _SelfCareScreenState extends State<SelfCareScreen>
 
           Text(
             chosen[2],
-            style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.muted, height: 1.5),
+            style: GoogleFonts.dmSans(
+              fontSize: 14.0,
+              color: AppColors.muted,
+              height: 1.5,
+            ),
           ),
           const SizedBox(height: 14.0),
 
@@ -370,11 +398,16 @@ class _SelfCareScreenState extends State<SelfCareScreen>
                   onPressed: () => setState(() => _favorite = !_favorite),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
                   ),
                   child: Text(
                     _favorite ? '★ Favourited' : '☆ Favourite',
-                    style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.plum),
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12.0,
+                      color: AppColors.plum,
+                    ),
                   ),
                 ),
               ),
@@ -386,11 +419,16 @@ class _SelfCareScreenState extends State<SelfCareScreen>
                     backgroundColor: AppColors.plum,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
                   ),
                   child: Text(
                     _status == 'running' ? 'Pause' : 'Start',
-                    style: GoogleFonts.dmSans(fontSize: 12.0, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -400,11 +438,16 @@ class _SelfCareScreenState extends State<SelfCareScreen>
                   onPressed: _restart,
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
                   ),
                   child: Text(
                     'Restart',
-                    style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.plum),
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12.0,
+                      color: AppColors.plum,
+                    ),
                   ),
                 ),
               ),
@@ -416,11 +459,16 @@ class _SelfCareScreenState extends State<SelfCareScreen>
                     backgroundColor: AppColors.rose,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
                   ),
                   child: Text(
                     'Complete',
-                    style: GoogleFonts.dmSans(fontSize: 12.0, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.dmSans(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -478,4 +526,44 @@ class _SelfCareScreenState extends State<SelfCareScreen>
       ),
     );
   }
+}
+
+class _TimerOrbPainter extends CustomPainter {
+  final Color trackColor;
+  final Color activeColor;
+
+  const _TimerOrbPainter({required this.trackColor, required this.activeColor});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const strokeWidth = 10.0;
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = (size.width - strokeWidth) / 2;
+
+    // Background track ring
+    final trackPaint = Paint()
+      ..color = trackColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth;
+    canvas.drawCircle(center, radius, trackPaint);
+
+    // Active rose arc (~90 degrees at top matching React reference)
+    final activePaint = Paint()
+      ..color = activeColor
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = strokeWidth;
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      -math.pi / 2,
+      math.pi / 2,
+      false,
+      activePaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _TimerOrbPainter oldDelegate) =>
+      oldDelegate.trackColor != trackColor ||
+      oldDelegate.activeColor != activeColor;
 }

@@ -21,10 +21,7 @@ import '../widgets/secondary_button.dart';
 class MythQuizScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const MythQuizScreen({
-    super.key,
-    this.onBack,
-  });
+  const MythQuizScreen({super.key, this.onBack});
 
   @override
   State<MythQuizScreen> createState() => _MythQuizScreenState();
@@ -47,25 +44,25 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           'Severe period pain is something everyone must simply tolerate.',
           'Myth',
           'Pain that disrupts daily activities deserves discussion with a qualified clinician.',
-          'ACOG — Dysmenorrhea: Painful Periods'
+          'ACOG — Dysmenorrhea: Painful Periods',
         ],
         [
           'Menstrual cycles can vary in length from person to person.',
           'Fact',
           'Cycle length varies, and an individual cycle can also change over time.',
-          'Office on Women’s Health — Menstrual Cycle'
+          'Office on Women’s Health — Menstrual Cycle',
         ],
         [
           'Eating sour foods during your period is harmful.',
           'Myth',
           'Sour foods are generally safe during menstruation. Personal food tolerance can vary.',
-          'NHS — Periods and nutrition guidance'
+          'NHS — Periods and nutrition guidance',
         ],
         [
           'Period products should be changed according to their instructions and your flow.',
           'Fact',
           'Regular changes support comfort and hygiene; follow product guidance.',
-          'NHS — Periods and sanitary products'
+          'NHS — Periods and sanitary products',
         ],
       ],
     },
@@ -77,25 +74,25 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           'PCOS can affect people differently.',
           'Fact',
           'Symptoms and their impact vary, so care should be individualized.',
-          'WHO — Polycystic ovary syndrome'
+          'WHO — Polycystic ovary syndrome',
         ],
         [
           'A single symptom is enough to diagnose PCOS.',
           'Myth',
           'Diagnosis requires clinical assessment and multiple findings.',
-          'WHO — Polycystic ovary syndrome'
+          'WHO — Polycystic ovary syndrome',
         ],
         [
           'PCOS has only one management option.',
           'Myth',
           'Options depend on symptoms, needs and personal goals.',
-          'NHS — Polycystic ovary syndrome'
+          'NHS — Polycystic ovary syndrome',
         ],
         [
           'PCOS can affect menstrual cycles.',
           'Fact',
           'Irregular or absent periods are among the possible features of PCOS.',
-          'WHO — Polycystic ovary syndrome'
+          'WHO — Polycystic ovary syndrome',
         ],
       ],
     },
@@ -107,25 +104,25 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           'Pregnancy tests are most reliable when used as instructed.',
           'Fact',
           'Timing and following instructions affect accuracy.',
-          'NHS — Doing a pregnancy test'
+          'NHS — Doing a pregnancy test',
         ],
         [
           'Fertility is identical for every person of the same age.',
           'Myth',
           'Age is one factor, but fertility differs between individuals.',
-          'ACOG — Evaluating Infertility'
+          'ACOG — Evaluating Infertility',
         ],
         [
           'A missed period always confirms pregnancy.',
           'Myth',
           'Periods can be late for several reasons.',
-          'NHS — Missed or late periods'
+          'NHS — Missed or late periods',
         ],
         [
           'Preconception health questions can be discussed with a clinician.',
           'Fact',
           'A clinician can provide guidance based on individual health and medicines.',
-          'Office on Women’s Health — Preconception health'
+          'Office on Women’s Health — Preconception health',
         ],
       ],
     },
@@ -137,25 +134,25 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           'Seeking mental-health support is a sign of weakness.',
           'Myth',
           'Reaching out is a practical health action, not a personal failure.',
-          'WHO — Mental health'
+          'WHO — Mental health',
         ],
         [
           'Sleep can influence mood and stress.',
           'Fact',
           'Sleep and emotional wellbeing are related, though experiences vary.',
-          'NIH — Sleep Health'
+          'NIH — Sleep Health',
         ],
         [
           'A mood score alone can rule out a crisis.',
           'Myth',
           'A score cannot determine safety. Immediate danger needs human support.',
-          'WHO — Mental health in emergencies'
+          'WHO — Mental health in emergencies',
         ],
         [
           'Grounding exercises replace professional mental-health care.',
           'Myth',
           'Grounding may support coping but does not replace care when it is needed.',
-          'NHS — Mental wellbeing'
+          'NHS — Mental wellbeing',
         ],
       ],
     },
@@ -167,25 +164,25 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           'One food can cure every health concern.',
           'Myth',
           'No single food replaces individualized healthcare.',
-          'WHO — Healthy diet'
+          'WHO — Healthy diet',
         ],
         [
           'Hydration needs can differ with climate and activity.',
           'Fact',
           'Fluid needs are influenced by personal and environmental factors.',
-          'NHS — Water, drinks and hydration'
+          'NHS — Water, drinks and hydration',
         ],
         [
           'Self-care should replace urgent medical attention.',
           'Myth',
           'Self-care is not a substitute for urgent or professional care.',
-          'NHS — Getting medical help'
+          'NHS — Getting medical help',
         ],
         [
           'Small, sustainable habit changes can support wellbeing.',
           'Fact',
           'Realistic routines can be easier to maintain than drastic short-term changes.',
-          'WHO — Healthy diet'
+          'WHO — Healthy diet',
         ],
       ],
     },
@@ -197,25 +194,25 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           'Menopause experiences are the same for everyone.',
           'Myth',
           'The type, intensity and duration of symptoms vary widely.',
-          'WHO — Menopause'
+          'WHO — Menopause',
         ],
         [
           'Menopause can affect sleep and mood.',
           'Fact',
           'Sleep and mood changes are symptoms some people experience.',
-          'WHO — Menopause'
+          'WHO — Menopause',
         ],
         [
           'Support is available for bothersome symptoms.',
           'Fact',
           'A clinician can discuss suitable options.',
-          'NHS — Menopause'
+          'NHS — Menopause',
         ],
         [
           'Menopause is diagnosed from one universal laboratory test.',
           'Myth',
           'Assessment depends on age, symptoms and individual circumstances.',
-          'NHS — Menopause diagnosis'
+          'NHS — Menopause diagnosis',
         ],
       ],
     },
@@ -227,25 +224,25 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           'One symptom log can confirm a diagnosis.',
           'Myth',
           'A log can support a conversation, but cannot diagnose a condition.',
-          'MedlinePlus — Talking With Your Doctor'
+          'MedlinePlus — Talking With Your Doctor',
         ],
         [
           'Preventive-care needs can change over time.',
           'Fact',
           'Recommended care depends on age, history and individual risk.',
-          'Office on Women’s Health — Health screenings'
+          'Office on Women’s Health — Health screenings',
         ],
         [
           'Sudden severe symptoms should wait for the next check-in.',
           'Myth',
           'Severe or alarming symptoms may require urgent assessment.',
-          'NHS — When to get medical help'
+          'NHS — When to get medical help',
         ],
         [
           'Preparing questions can help a healthcare conversation.',
           'Fact',
           'Writing down priorities can help you cover what matters during an appointment.',
-          'MedlinePlus — Talking With Your Doctor'
+          'MedlinePlus — Talking With Your Doctor',
         ],
       ],
     },
@@ -309,13 +306,18 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 860.0),
                     child: !hasCategory
                         ? _buildCategorySelectionView()
-                        : (_finished ? _buildScoreView(cat!) : _buildQuestionView(cat!)),
+                        : (_finished
+                              ? _buildScoreView(cat!)
+                              : _buildQuestionView(cat!)),
                   ),
                 ),
               ),
@@ -323,8 +325,10 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
 
             InHercueBottomNav(
               currentDestination: InHercueNavDestination.learn,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),
@@ -336,10 +340,7 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'LEARN AT YOUR PACE',
-          style: AppTextStyles.kicker,
-        ),
+        Text('LEARN AT YOUR PACE', style: AppTextStyles.kicker),
         const SizedBox(height: 8.0),
         Text(
           'Let’s bust some myths!',
@@ -352,10 +353,7 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
         const SizedBox(height: 8.0),
         Text(
           'Explore what’s fact and fiction about women’s health.',
-          style: GoogleFonts.dmSans(
-            fontSize: 14.0,
-            color: AppColors.muted,
-          ),
+          style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.muted),
         ),
         const SizedBox(height: 24.0),
 
@@ -417,7 +415,9 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
                           ),
                           child: Center(
                             child: InHercueIcon(
-                              icon: idx.isEven ? InHercueIconType.sparkle : InHercueIconType.learn,
+                              icon: idx.isEven
+                                  ? InHercueIconType.sparkle
+                                  : InHercueIconType.learn,
                               size: 20.0,
                               color: AppColors.plum,
                             ),
@@ -455,16 +455,32 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4.0),
-                          child: LinearProgressIndicator(
-                            value: doneCount / qList.length,
-                            backgroundColor: Colors.white.withValues(alpha: 0.6),
-                            color: AppColors.plum,
-                            minHeight: 4.0,
+                          child: Container(
+                            height: 4.0,
+                            color: Colors.white.withValues(alpha: 0.6),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                final progress = (doneCount / qList.length)
+                                    .clamp(0.0, 1.0);
+                                return Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeOut,
+                                    width: constraints.maxWidth * progress,
+                                    height: 4.0,
+                                    color: AppColors.plum,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                         const SizedBox(height: 10.0),
                         Text(
-                          doneCount > 0 ? '$doneCount of ${qList.length} complete →' : 'Start category →',
+                          doneCount > 0
+                              ? '$doneCount of ${qList.length} complete →'
+                              : 'Start category →',
                           style: GoogleFonts.dmSans(
                             fontSize: 12.0,
                             fontWeight: FontWeight.w600,
@@ -555,7 +571,9 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 6.0),
                   child: InkWell(
-                    onTap: _revealed ? null : () => setState(() => _currentAnswer = choice),
+                    onTap: _revealed
+                        ? null
+                        : () => setState(() => _currentAnswer = choice),
                     borderRadius: BorderRadius.circular(18.0),
                     child: Container(
                       height: 88.0,
@@ -586,104 +604,155 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           ),
           const SizedBox(height: 20.0),
 
-          if (!_revealed) ...[
-            Center(
-              child: TextButton(
-                onPressed: () => setState(() => _currentAnswer = "I'm not sure"),
-                child: Text(
-                  'I’m not sure',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 13.0,
-                    color: AppColors.plum,
-                    decoration: TextDecoration.underline,
-                  ),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 350),
+            transitionBuilder: (child, animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position:
+                      Tween<Offset>(
+                        begin: const Offset(0.0, 0.08),
+                        end: Offset.zero,
+                      ).animate(
+                        CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeOutCubic,
+                        ),
+                      ),
+                  child: child,
                 ),
-              ),
-            ),
-            const SizedBox(height: 14.0),
-            PrimaryButton(
-              label: 'Submit & reveal answer',
-              onPressed: _currentAnswer.isNotEmpty
-                  ? () {
-                      setState(() {
-                        _revealed = true;
-                        _userAnswers[key] = _currentAnswer;
-                      });
-                    }
-                  : null,
-            ),
-          ] else ...[
-            // Feedback Card
-            Container(
-              padding: const EdgeInsets.all(22.0),
-              decoration: BoxDecoration(
-                color: _currentAnswer == q[1] ? AppColors.sageLight : AppColors.goldLight,
-                borderRadius: BorderRadius.circular(17.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${_currentAnswer == q[1] ? 'Correct' : 'Not quite'} — this is ${q[1]}.',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.ink,
+              );
+            },
+            child: !_revealed
+                ? KeyedSubtree(
+                    key: const ValueKey('unrevealed'),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Center(
+                          child: TextButton(
+                            onPressed: () =>
+                                setState(() => _currentAnswer = "I'm not sure"),
+                            child: Text(
+                              'I’m not sure',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 13.0,
+                                color: AppColors.plum,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 14.0),
+                        PrimaryButton(
+                          label: 'Submit & reveal answer',
+                          onPressed: _currentAnswer.isNotEmpty
+                              ? () {
+                                  setState(() {
+                                    _revealed = true;
+                                    _userAnswers[key] = _currentAnswer;
+                                  });
+                                }
+                              : null,
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    q[2],
-                    style: GoogleFonts.dmSans(
-                      fontSize: 14.0,
-                      color: AppColors.ink,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  Text(
-                    'Reference: ${q[3]}',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 11.0,
-                      color: AppColors.muted,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24.0),
+                  )
+                : KeyedSubtree(
+                    key: const ValueKey('revealed'),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Feedback Card
+                        Container(
+                          padding: const EdgeInsets.all(22.0),
+                          decoration: BoxDecoration(
+                            color: _currentAnswer == q[1]
+                                ? AppColors.sageLight
+                                : AppColors.goldLight,
+                            borderRadius: BorderRadius.circular(17.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${_currentAnswer == q[1] ? 'Correct' : 'Not quite'} — this is ${q[1]}.',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.ink,
+                                ),
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                q[2],
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 14.0,
+                                  color: AppColors.ink,
+                                  height: 1.5,
+                                ),
+                              ),
+                              const SizedBox(height: 10.0),
+                              Text(
+                                'Reference: ${q[3]}',
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 11.0,
+                                  color: AppColors.muted,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 24.0),
 
-            Row(
-              children: [
-                Expanded(
-                  child: SecondaryButton(
-                    label: 'Back to categories',
-                    onPressed: () => setState(() => _selectedCategory = null),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SecondaryButton(
+                                label: 'Back to categories',
+                                onPressed: () =>
+                                    setState(() => _selectedCategory = null),
+                              ),
+                            ),
+                            const SizedBox(width: 12.0),
+                            Expanded(
+                              flex: 2,
+                              child: PrimaryButton(
+                                label: _questionIndex == qList.length - 1
+                                    ? 'View results'
+                                    : 'Next question',
+                                trailingIcon: const Text(
+                                  '→',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  if (_questionIndex == qList.length - 1) {
+                                    setState(() => _finished = true);
+                                  } else {
+                                    setState(() {
+                                      _questionIndex++;
+                                      final nextKey =
+                                          '${cat['name']}-$_questionIndex';
+                                      _currentAnswer =
+                                          _userAnswers[nextKey] ?? '';
+                                      _revealed = _userAnswers.containsKey(
+                                        nextKey,
+                                      );
+                                    });
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 12.0),
-                Expanded(
-                  flex: 2,
-                  child: PrimaryButton(
-                    label: _questionIndex == qList.length - 1 ? 'View results' : 'Next question',
-                    trailingIcon: const Text('→', style: TextStyle(color: Colors.white, fontSize: 16.0)),
-                    onPressed: () {
-                      if (_questionIndex == qList.length - 1) {
-                        setState(() => _finished = true);
-                      } else {
-                        setState(() {
-                          _questionIndex++;
-                          final nextKey = '${cat['name']}-$_questionIndex';
-                          _currentAnswer = _userAnswers[nextKey] ?? '';
-                          _revealed = _userAnswers.containsKey(nextKey);
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ],
       ),
     );
@@ -716,10 +785,7 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
             ),
           ),
           const SizedBox(height: 18.0),
-          Text(
-            'CATEGORY COMPLETE',
-            style: AppTextStyles.kicker,
-          ),
+          Text('CATEGORY COMPLETE', style: AppTextStyles.kicker),
           const SizedBox(height: 8.0),
           Text(
             '$correctScore of ${qList.length} correct',
@@ -732,10 +798,7 @@ class _MythQuizScreenState extends State<MythQuizScreen> {
           const SizedBox(height: 8.0),
           Text(
             'Revisiting an answer won’t add to your score.',
-            style: GoogleFonts.dmSans(
-              fontSize: 14.0,
-              color: AppColors.muted,
-            ),
+            style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.muted),
           ),
           const SizedBox(height: 28.0),
 

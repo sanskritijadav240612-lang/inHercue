@@ -40,11 +40,7 @@ class DetailPageScreen extends StatefulWidget {
   final DetailType type;
   final VoidCallback? onBack;
 
-  const DetailPageScreen({
-    super.key,
-    required this.type,
-    this.onBack,
-  });
+  const DetailPageScreen({super.key, required this.type, this.onBack});
 
   @override
   State<DetailPageScreen> createState() => _DetailPageScreenState();
@@ -62,17 +58,17 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
     [
       'Rest is a health habit',
       'Keeping a regular sleep and wake time may support sleep quality.',
-      'NHS — How to get to sleep'
+      'NHS — How to get to sleep',
     ],
     [
       'Hydration is personal',
       'Fluid needs change with activity, weather, pregnancy and health conditions.',
-      'NHS — Water, drinks and hydration'
+      'NHS — Water, drinks and hydration',
     ],
     [
       'Movement can be gentle',
       'Short, comfortable activity still counts; choose movement that suits your body.',
-      'WHO — Physical activity'
+      'WHO — Physical activity',
     ],
   ];
 
@@ -90,7 +86,8 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
         return {
           'title': 'Health Patterns',
           'eyebrow': 'DEMO INSIGHTS',
-          'text': 'Your energy tends to be higher on days after 7+ hours of sleep.',
+          'text':
+              'Your energy tends to be higher on days after 7+ hours of sleep.',
           'icon': InHercueIconType.chart,
           'nav': InHercueNavDestination.records,
         };
@@ -191,10 +188,13 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 650.0),
+                    constraints: const BoxConstraints(maxWidth: 820.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -267,8 +267,10 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
 
             InHercueBottomNav(
               currentDestination: hero['nav'] as InHercueNavDestination,
-              onDestinationSelected: (dest) => _navigateDestination(context, dest),
-              onNewEntry: () => Navigator.of(context).pushNamed(AppRoutes.entry),
+              onDestinationSelected: (dest) =>
+                  _navigateDestination(context, dest),
+              onNewEntry: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.entry),
             ),
           ],
         ),
@@ -286,7 +288,8 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () => Navigator.of(context).pushNamed(AppRoutes.symptoms),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(AppRoutes.symptoms),
                     borderRadius: BorderRadius.circular(20.0),
                     child: Container(
                       padding: const EdgeInsets.all(20.0),
@@ -297,13 +300,37 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const InHercueIcon(icon: InHercueIconType.plus, size: 22.0, color: AppColors.plum),
+                          const InHercueIcon(
+                            icon: InHercueIconType.plus,
+                            size: 22.0,
+                            color: AppColors.plum,
+                          ),
                           const SizedBox(height: 10.0),
-                          Text('Log a symptom', style: GoogleFonts.playfairDisplay(fontSize: 18.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                          Text(
+                            'Log a symptom',
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.plum,
+                            ),
+                          ),
                           const SizedBox(height: 4.0),
-                          Text('Record severity, timing, frequency and context.', style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.muted)),
+                          Text(
+                            'Record severity, timing, frequency and context.',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12.0,
+                              color: AppColors.muted,
+                            ),
+                          ),
                           const SizedBox(height: 12.0),
-                          Text('Open symptom form →', style: GoogleFonts.dmSans(fontSize: 12.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                          Text(
+                            'Open symptom form →',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.plum,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -312,7 +339,8 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                 const SizedBox(width: 14.0),
                 Expanded(
                   child: InkWell(
-                    onTap: () => Navigator.of(context).pushNamed(AppRoutes.checkin),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(AppRoutes.checkin),
                     borderRadius: BorderRadius.circular(20.0),
                     child: Container(
                       padding: const EdgeInsets.all(20.0),
@@ -323,13 +351,37 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const InHercueIcon(icon: InHercueIconType.heart, size: 22.0, color: AppColors.plum),
+                          const InHercueIcon(
+                            icon: InHercueIconType.heart,
+                            size: 22.0,
+                            color: AppColors.plum,
+                          ),
                           const SizedBox(height: 10.0),
-                          Text('Daily body check', style: GoogleFonts.playfairDisplay(fontSize: 18.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                          Text(
+                            'Daily body check',
+                            style: GoogleFonts.playfairDisplay(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.plum,
+                            ),
+                          ),
                           const SizedBox(height: 4.0),
-                          Text('Add today’s physical signals to your full check-in.', style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.muted)),
+                          Text(
+                            'Add today’s physical signals to your full check-in.',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12.0,
+                              color: AppColors.muted,
+                            ),
+                          ),
                           const SizedBox(height: 12.0),
-                          Text('Start check-in →', style: GoogleFonts.dmSans(fontSize: 12.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                          Text(
+                            'Start check-in →',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.plum,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -349,9 +401,24 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('RECENT PHYSICAL RECORDS · DEMO', style: GoogleFonts.dmSans(fontSize: 10.0, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: AppColors.rose)),
+                  Text(
+                    'RECENT PHYSICAL RECORDS · DEMO',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 10.0,
+                      letterSpacing: 1.2,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.rose,
+                    ),
+                  ),
                   const SizedBox(height: 8.0),
-                  Text('Your latest entries', style: GoogleFonts.playfairDisplay(fontSize: 22.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                  Text(
+                    'Your latest entries',
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.plum,
+                    ),
+                  ),
                   const SizedBox(height: 12.0),
                   _buildRecordRow('Headache', '24 May · Mild · Resolved'),
                   _buildRecordRow('Energy', '25 May · Steady'),
@@ -380,7 +447,9 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                       selectedColor: AppColors.plum,
                       labelStyle: GoogleFonts.dmSans(
                         color: isSelected ? Colors.white : AppColors.ink,
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.w400,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -394,37 +463,81 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
             ),
             const SizedBox(height: 16.0),
 
-            MiniChartWidget(
-              title: 'Sleep duration',
-              subtitle: '$_range · sample data',
-            ),
-            const SizedBox(height: 18.0),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final chartWidget = MiniChartWidget(
+                  title: 'Sleep duration',
+                  subtitle: '$_range · sample data',
+                );
 
-            Container(
-              padding: const EdgeInsets.all(22.0),
-              decoration: BoxDecoration(
-                color: AppColors.paper,
-                borderRadius: BorderRadius.circular(22.0),
-                border: Border.all(color: AppColors.line),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('OBSERVATION · SAMPLE DATA', style: GoogleFonts.dmSans(fontSize: 10.0, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: AppColors.rose)),
-                  const SizedBox(height: 8.0),
-                  Text('Sleep and energy', style: GoogleFonts.playfairDisplay(fontSize: 22.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    'Higher energy was recorded on three days following 7+ hours of sleep. This is an observation, not a confirmed cause.',
-                    style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.muted, height: 1.5),
+                final observationWidget = Container(
+                  padding: const EdgeInsets.all(22.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.paper,
+                    borderRadius: BorderRadius.circular(22.0),
+                    border: Border.all(color: AppColors.line),
                   ),
-                  const SizedBox(height: 18.0),
-                  SecondaryButton(
-                    label: 'View supporting entries',
-                    onPressed: () => Navigator.of(context).pushReplacementNamed(AppRoutes.records),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'OBSERVATION · SAMPLE DATA',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 10.0,
+                          letterSpacing: 1.2,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.rose,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        'Sleep and energy',
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.plum,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        'Higher energy was recorded on three days following 7+ hours of sleep. This is an observation, not a confirmed cause.',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14.0,
+                          color: AppColors.muted,
+                          height: 1.5,
+                        ),
+                      ),
+                      const SizedBox(height: 18.0),
+                      SecondaryButton(
+                        label: 'View supporting entries',
+                        onPressed: () =>
+                            Navigator.of(context)
+                                .pushReplacementNamed(AppRoutes.records),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+
+                if (constraints.maxWidth >= 700.0) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(flex: 12, child: chartWidget),
+                      const SizedBox(width: 14.0),
+                      Expanded(flex: 10, child: observationWidget),
+                    ],
+                  );
+                }
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    chartWidget,
+                    const SizedBox(height: 18.0),
+                    observationWidget,
+                  ],
+                );
+              },
             ),
           ],
         );
@@ -443,17 +556,30 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
             children: [
               Text(
                 'DAILY WELLNESS CARD · ${_tipIndex + 1} OF ${_wellnessTips.length}',
-                style: GoogleFonts.dmSans(fontSize: 10.0, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: AppColors.rose),
+                style: GoogleFonts.dmSans(
+                  fontSize: 10.0,
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.rose,
+                ),
               ),
               const SizedBox(height: 10.0),
               Text(
                 tip[0],
-                style: GoogleFonts.playfairDisplay(fontSize: 26.0, fontWeight: FontWeight.w600, color: AppColors.plum),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 26.0,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.plum,
+                ),
               ),
               const SizedBox(height: 10.0),
               Text(
                 tip[1],
-                style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.muted, height: 1.6),
+                style: GoogleFonts.dmSans(
+                  fontSize: 14.0,
+                  color: AppColors.muted,
+                  height: 1.6,
+                ),
               ),
               const SizedBox(height: 18.0),
 
@@ -466,17 +592,32 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Practical takeaway', style: GoogleFonts.dmSans(fontWeight: FontWeight.w700, color: AppColors.plum)),
+                    Text(
+                      'Practical takeaway',
+                      style: GoogleFonts.dmSans(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.plum,
+                      ),
+                    ),
                     const SizedBox(height: 4.0),
                     Text(
                       'Choose one small action that feels realistic today, and adjust it to your needs.',
-                      style: GoogleFonts.dmSans(fontSize: 13.0, color: AppColors.muted),
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13.0,
+                        color: AppColors.muted,
+                      ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 14.0),
-              Text('Reference: ${tip[2]}', style: GoogleFonts.dmSans(fontSize: 11.0, color: AppColors.muted)),
+              Text(
+                'Reference: ${tip[2]}',
+                style: GoogleFonts.dmSans(
+                  fontSize: 11.0,
+                  color: AppColors.muted,
+                ),
+              ),
               const SizedBox(height: 24.0),
 
               Row(
@@ -528,11 +669,32 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('HEALTH PASSPORT · USER-ENTERED', style: GoogleFonts.dmSans(fontSize: 10.0, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: AppColors.roseLight)),
+                  Text(
+                    'HEALTH PASSPORT · USER-ENTERED',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 10.0,
+                      letterSpacing: 1.2,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.roseLight,
+                    ),
+                  ),
                   const SizedBox(height: 8.0),
-                  Text('Your health information, in one place.', style: GoogleFonts.playfairDisplay(fontSize: 22.0, fontWeight: FontWeight.w600, color: Colors.white)),
+                  Text(
+                    'Your health information, in one place.',
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
                   const SizedBox(height: 6.0),
-                  Text('Unknown information stays unknown until you add or confirm it.', style: GoogleFonts.dmSans(fontSize: 13.0, color: const Color(0xFFDED1DA))),
+                  Text(
+                    'Unknown information stays unknown until you add or confirm it.',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 13.0,
+                      color: const Color(0xFFDED1DA),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -550,7 +712,9 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                     decoration: BoxDecoration(
                       color: AppColors.paper,
                       borderRadius: BorderRadius.circular(15.0),
-                      border: Border.all(color: isSelected ? AppColors.rose : AppColors.line),
+                      border: Border.all(
+                        color: isSelected ? AppColors.rose : AppColors.line,
+                      ),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -558,12 +722,32 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(item[0], style: GoogleFonts.dmSans(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                            Text(
+                              item[0],
+                              style: GoogleFonts.dmSans(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.plum,
+                              ),
+                            ),
                             const SizedBox(height: 2.0),
-                            Text(item[1], style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.muted)),
+                            Text(
+                              item[1],
+                              style: GoogleFonts.dmSans(
+                                fontSize: 12.0,
+                                color: AppColors.muted,
+                              ),
+                            ),
                           ],
                         ),
-                        Text(isSelected ? 'Selected' : 'View / edit →', style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.rose, fontWeight: FontWeight.w600)),
+                        Text(
+                          isSelected ? 'Selected' : 'View / edit →',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12.0,
+                            color: AppColors.rose,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -575,14 +759,25 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
               const SizedBox(height: 12.0),
               Container(
                 padding: const EdgeInsets.all(12.0),
-                decoration: BoxDecoration(color: AppColors.sageLight, borderRadius: BorderRadius.circular(12.0)),
-                child: Text('$_selectedItem selected. Add, edit and delete controls are available in this prototype section.', style: GoogleFonts.dmSans(color: const Color(0xFF3D6645), fontSize: 13.0)),
+                decoration: BoxDecoration(
+                  color: AppColors.sageLight,
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Text(
+                  '$_selectedItem selected. Add, edit and delete controls are available in this prototype section.',
+                  style: GoogleFonts.dmSans(
+                    color: const Color(0xFF3D6645),
+                    fontSize: 13.0,
+                  ),
+                ),
               ),
             ],
 
             const SizedBox(height: 18.0),
             PrimaryButton(
-              label: _saved ? 'Manual entry form ready' : 'Add health information',
+              label: _saved
+                  ? 'Manual entry form ready'
+                  : 'Add health information',
               onPressed: () => setState(() => _saved = true),
             ),
           ],
@@ -601,7 +796,11 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
               ),
               child: Row(
                 children: [
-                  const InHercueIcon(icon: InHercueIconType.search, size: 20.0, color: AppColors.muted),
+                  const InHercueIcon(
+                    icon: InHercueIconType.search,
+                    size: 20.0,
+                    color: AppColors.muted,
+                  ),
                   const SizedBox(width: 10.0),
                   Expanded(
                     child: TextField(
@@ -620,36 +819,54 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [
-                  'All',
-                  'General Physician',
-                  'Gynecologist',
-                  'Obstetrician',
-                  'Endocrinologist',
-                  'Dermatologist',
-                  'Psychiatrist',
-                  'Nutritionist',
-                ].map((spec) {
-                  final isSelected = _selectedItem == spec || (_selectedItem.isEmpty && spec == 'All');
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: FilterChip(
-                      label: Text(spec),
-                      selected: isSelected,
-                      onSelected: (_) => setState(() => _selectedItem = spec),
-                      backgroundColor: AppColors.paper,
-                      selectedColor: AppColors.plum,
-                      labelStyle: GoogleFonts.dmSans(color: isSelected ? Colors.white : AppColors.ink, fontSize: 12.0),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0), side: const BorderSide(color: AppColors.line)),
-                      showCheckmark: false,
-                    ),
-                  );
-                }).toList(),
+                children:
+                    [
+                      'All',
+                      'General Physician',
+                      'Gynecologist',
+                      'Obstetrician',
+                      'Endocrinologist',
+                      'Dermatologist',
+                      'Psychiatrist',
+                      'Nutritionist',
+                    ].map((spec) {
+                      final isSelected =
+                          _selectedItem == spec ||
+                          (_selectedItem.isEmpty && spec == 'All');
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: FilterChip(
+                          label: Text(spec),
+                          selected: isSelected,
+                          onSelected: (_) =>
+                              setState(() => _selectedItem = spec),
+                          backgroundColor: AppColors.paper,
+                          selectedColor: AppColors.plum,
+                          labelStyle: GoogleFonts.dmSans(
+                            color: isSelected ? Colors.white : AppColors.ink,
+                            fontSize: 12.0,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            side: const BorderSide(color: AppColors.line),
+                          ),
+                          showCheckmark: false,
+                        ),
+                      );
+                    }).toList(),
               ),
             ),
             const SizedBox(height: 20.0),
 
-            Text('SAMPLE PROVIDERS · VERIFY DETAILS BEFORE BOOKING', style: GoogleFonts.dmSans(fontSize: 10.0, letterSpacing: 1.0, fontWeight: FontWeight.w700, color: AppColors.rose)),
+            Text(
+              'SAMPLE PROVIDERS · VERIFY DETAILS BEFORE BOOKING',
+              style: GoogleFonts.dmSans(
+                fontSize: 10.0,
+                letterSpacing: 1.0,
+                fontWeight: FontWeight.w700,
+                color: AppColors.rose,
+              ),
+            ),
             const SizedBox(height: 12.0),
 
             if (_searchQuery.toLowerCase().contains('zzz'))
@@ -662,15 +879,36 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                 ),
                 child: Column(
                   children: [
-                    Text('No sample providers found', style: GoogleFonts.playfairDisplay(fontSize: 20.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                    Text(
+                      'No sample providers found',
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.plum,
+                      ),
+                    ),
                     const SizedBox(height: 6.0),
-                    Text('Try another specialty or clear your search.', style: GoogleFonts.dmSans(fontSize: 13.0, color: AppColors.muted)),
+                    Text(
+                      'Try another specialty or clear your search.',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13.0,
+                        color: AppColors.muted,
+                      ),
+                    ),
                   ],
                 ),
               )
             else ...[
-              _buildDoctorCard('Dr. Amina Malik', 'AM', 'Women’s Health · Virtual visits'),
-              _buildDoctorCard('Dr. Elena Ramos', 'ER', 'Gynecology · In-person consultations'),
+              _buildDoctorCard(
+                'Dr. Amina Malik',
+                'AM',
+                'Women’s Health · Virtual visits',
+              ),
+              _buildDoctorCard(
+                'Dr. Elena Ramos',
+                'ER',
+                'Gynecology · In-person consultations',
+              ),
             ],
           ],
         );
@@ -686,15 +924,38 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('DOCTOR-READY REPORTS', style: GoogleFonts.dmSans(fontSize: 10.0, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: AppColors.rose)),
+              Text(
+                'DOCTOR-READY REPORTS',
+                style: GoogleFonts.dmSans(
+                  fontSize: 10.0,
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.rose,
+                ),
+              ),
               const SizedBox(height: 8.0),
-              Text('Prepare a clear health conversation.', style: GoogleFonts.playfairDisplay(fontSize: 24.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+              Text(
+                'Prepare a clear health conversation.',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.plum,
+                ),
+              ),
               const SizedBox(height: 8.0),
-              Text('Select records, review the wording and control what is shared.', style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.muted, height: 1.5)),
+              Text(
+                'Select records, review the wording and control what is shared.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 14.0,
+                  color: AppColors.muted,
+                  height: 1.5,
+                ),
+              ),
               const SizedBox(height: 20.0),
               PrimaryButton(
                 label: 'Create a health report',
-                onPressed: () => Navigator.of(context).pushNamed(AppRoutes.reports),
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(AppRoutes.reports),
               ),
             ],
           ),
@@ -728,12 +989,32 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(rem, style: GoogleFonts.dmSans(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                            Text(
+                              rem,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.plum,
+                              ),
+                            ),
                             const SizedBox(height: 3.0),
-                            Text('Notification text hides sensitive health details.', style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.muted)),
+                            Text(
+                              'Notification text hides sensitive health details.',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 12.0,
+                                color: AppColors.muted,
+                              ),
+                            ),
                           ],
                         ),
-                        Text(isSel ? 'Updated' : 'Manage →', style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.rose, fontWeight: FontWeight.w600)),
+                        Text(
+                          isSel ? 'Updated' : 'Manage →',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 12.0,
+                            color: AppColors.rose,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -754,13 +1035,38 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('PRIVACY & CONTROL', style: GoogleFonts.dmSans(fontSize: 10.0, letterSpacing: 1.2, fontWeight: FontWeight.w700, color: AppColors.rose)),
+              Text(
+                'PRIVACY & CONTROL',
+                style: GoogleFonts.dmSans(
+                  fontSize: 10.0,
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.rose,
+                ),
+              ),
               const SizedBox(height: 8.0),
-              Text('Your information stays under your control.', style: GoogleFonts.playfairDisplay(fontSize: 24.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+              Text(
+                'Your information stays under your control.',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.plum,
+                ),
+              ),
               const SizedBox(height: 8.0),
-              Text('Manage language, notification privacy, account security, export and deletion.', style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.muted, height: 1.5)),
+              Text(
+                'Manage language, notification privacy, account security, export and deletion.',
+                style: GoogleFonts.dmSans(
+                  fontSize: 14.0,
+                  color: AppColors.muted,
+                  height: 1.5,
+                ),
+              ),
               const SizedBox(height: 18.0),
-              _buildRecordRow('Notification privacy', 'Sensitive details hidden'),
+              _buildRecordRow(
+                'Notification privacy',
+                'Sensitive details hidden',
+              ),
               _buildRecordRow('Data export', 'Available on request'),
               const SizedBox(height: 20.0),
               SecondaryButton(
@@ -779,8 +1085,18 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: GoogleFonts.dmSans(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.ink)),
-          Text(value, style: GoogleFonts.dmSans(fontSize: 13.0, color: AppColors.muted)),
+          Text(
+            label,
+            style: GoogleFonts.dmSans(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              color: AppColors.ink,
+            ),
+          ),
+          Text(
+            value,
+            style: GoogleFonts.dmSans(fontSize: 13.0, color: AppColors.muted),
+          ),
         ],
       ),
     );
@@ -819,11 +1135,30 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name, style: GoogleFonts.playfairDisplay(fontSize: 17.0, fontWeight: FontWeight.w600, color: AppColors.plum)),
+                Text(
+                  name,
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.plum,
+                  ),
+                ),
                 const SizedBox(height: 2.0),
-                Text('Sample provider · credentials not connected', style: GoogleFonts.dmSans(fontSize: 11.0, color: AppColors.muted)),
+                Text(
+                  'Sample provider · credentials not connected',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 11.0,
+                    color: AppColors.muted,
+                  ),
+                ),
                 const SizedBox(height: 2.0),
-                Text(meta, style: GoogleFonts.dmSans(fontSize: 12.0, color: AppColors.ink)),
+                Text(
+                  meta,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12.0,
+                    color: AppColors.ink,
+                  ),
+                ),
               ],
             ),
           ),
@@ -832,15 +1167,23 @@ class _DetailPageScreenState extends State<DetailPageScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: AppColors.plum,
-                  content: Text('Sample provider profile: $name', style: GoogleFonts.dmSans(color: Colors.white)),
+                  content: Text(
+                    'Sample provider profile: $name',
+                    style: GoogleFonts.dmSans(color: Colors.white),
+                  ),
                 ),
               );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.plum,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-              padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14.0,
+                vertical: 8.0,
+              ),
             ),
             child: const Text('View profile'),
           ),

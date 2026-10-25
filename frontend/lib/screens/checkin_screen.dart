@@ -20,10 +20,7 @@ import '../widgets/secondary_button.dart';
 class CheckinScreen extends StatefulWidget {
   final VoidCallback? onBack;
 
-  const CheckinScreen({
-    super.key,
-    this.onBack,
-  });
+  const CheckinScreen({super.key, this.onBack});
 
   @override
   State<CheckinScreen> createState() => _CheckinScreenState();
@@ -37,7 +34,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
   bool _planReminder = false;
   final Map<String, String> _answers = {};
   final TextEditingController _noteController = TextEditingController();
-  final TextEditingController _timingDurationController = TextEditingController();
+  final TextEditingController _timingDurationController =
+      TextEditingController();
 
   static const List<Map<String, dynamic>> _stepsData = [
     {
@@ -50,7 +48,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
         'Cramps',
         'Bloating',
         'Fatigue',
-        'Other'
+        'Other',
       ],
     },
     {
@@ -103,7 +101,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
         'Heavy · high stress',
         'Low · some stress',
         'Steady · manageable',
-        'Calm · low stress'
+        'Calm · low stress',
       ],
     },
     {
@@ -115,7 +113,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
         'Period started',
         'Period ended',
         'Spotting',
-        'Cramps'
+        'Cramps',
       ],
     },
   ];
@@ -210,7 +208,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
     final totalSteps = _stepsData.length + 1;
     final progressFraction = _isComplete
         ? 1.0
-        : (_isReview ? _stepsData.length / totalSteps : (_step + 1) / totalSteps);
+        : (_isReview
+              ? _stepsData.length / totalSteps
+              : (_step + 1) / totalSteps);
 
     return Scaffold(
       backgroundColor: AppColors.ivory,
@@ -225,7 +225,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 12.0,
+                ),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 520.0),
@@ -239,7 +242,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
                             Text(
                               _isComplete
                                   ? 'Saved'
-                                  : (_isReview ? 'Review' : 'Step ${_step + 1}'),
+                                  : (_isReview
+                                        ? 'Review'
+                                        : 'Step ${_step + 1}'),
                               style: GoogleFonts.dmSans(
                                 fontSize: 11.0,
                                 fontWeight: FontWeight.w600,
@@ -264,10 +269,21 @@ class _CheckinScreenState extends State<CheckinScreen> {
                           child: Container(
                             height: 4.0,
                             color: AppColors.line,
-                            child: FractionallySizedBox(
-                              alignment: Alignment.centerLeft,
-                              widthFactor: progressFraction.clamp(0.0, 1.0),
-                              child: Container(color: AppColors.rose),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                return Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 350),
+                                    curve: Curves.easeInOut,
+                                    width:
+                                        constraints.maxWidth *
+                                        progressFraction.clamp(0.0, 1.0),
+                                    height: 4.0,
+                                    color: AppColors.rose,
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -329,11 +345,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
         const SizedBox(height: 18.0),
 
         // Kicker
-        Text(
-          kicker,
-          textAlign: TextAlign.center,
-          style: AppTextStyles.kicker,
-        ),
+        Text(kicker, textAlign: TextAlign.center, style: AppTextStyles.kicker),
         const SizedBox(height: 8.0),
 
         // Question Title
@@ -354,10 +366,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
               ? 'This follow-up appears because you selected a symptom.'
               : 'Choose what feels closest. You can change it before saving.',
           textAlign: TextAlign.center,
-          style: GoogleFonts.dmSans(
-            fontSize: 13.0,
-            color: AppColors.muted,
-          ),
+          style: GoogleFonts.dmSans(fontSize: 13.0, color: AppColors.muted),
         ),
         const SizedBox(height: 24.0),
 
@@ -371,8 +380,13 @@ class _CheckinScreenState extends State<CheckinScreen> {
                 child: InkWell(
                   onTap: () => _toggleSymptom(opt),
                   borderRadius: BorderRadius.circular(14.0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeOut,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 14.0,
+                    ),
                     decoration: BoxDecoration(
                       color: isSelected ? AppColors.roseLight : AppColors.paper,
                       borderRadius: BorderRadius.circular(14.0),
@@ -383,19 +397,32 @@ class _CheckinScreenState extends State<CheckinScreen> {
                     ),
                     child: Row(
                       children: [
-                        Container(
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeOut,
                           width: 26.0,
                           height: 26.0,
                           decoration: BoxDecoration(
-                            color: isSelected ? AppColors.plum : AppColors.ivory,
+                            color: isSelected
+                                ? AppColors.plum
+                                : AppColors.ivory,
                             shape: BoxShape.circle,
                           ),
                           child: Center(
                             child: isSelected
-                                ? const Text('✓', style: TextStyle(color: Colors.white, fontSize: 13.0))
+                                ? const Text(
+                                    '✓',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 13.0,
+                                    ),
+                                  )
                                 : Text(
                                     '${options.indexOf(opt) + 1}',
-                                    style: GoogleFonts.dmSans(fontSize: 11.0, color: AppColors.muted),
+                                    style: GoogleFonts.dmSans(
+                                      fontSize: 11.0,
+                                      color: AppColors.muted,
+                                    ),
                                   ),
                           ),
                         ),
@@ -405,7 +432,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
                             opt,
                             style: GoogleFonts.dmSans(
                               fontSize: 15.0,
-                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                              fontWeight: isSelected
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
                               color: AppColors.ink,
                             ),
                           ),
@@ -456,7 +485,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
                       decoration: InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14.0,
+                          vertical: 12.0,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(color: AppColors.line),
@@ -464,8 +496,14 @@ class _CheckinScreenState extends State<CheckinScreen> {
                       ),
                       items: const [
                         DropdownMenuItem(value: 'Mild', child: Text('Mild')),
-                        DropdownMenuItem(value: 'Moderate', child: Text('Moderate')),
-                        DropdownMenuItem(value: 'Severe', child: Text('Severe')),
+                        DropdownMenuItem(
+                          value: 'Moderate',
+                          child: Text('Moderate'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Severe',
+                          child: Text('Severe'),
+                        ),
                       ],
                       onChanged: (val) {
                         if (val != null) _setAnswer('$symptom severity', val);
@@ -487,7 +525,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         hintText: 'e.g. 2 hours',
                         fillColor: Colors.white,
                         filled: true,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14.0,
+                          vertical: 12.0,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(color: AppColors.line),
@@ -511,7 +552,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
                       decoration: InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14.0,
+                          vertical: 12.0,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide(color: AppColors.line),
@@ -519,8 +563,14 @@ class _CheckinScreenState extends State<CheckinScreen> {
                       ),
                       items: const [
                         DropdownMenuItem(value: 'Once', child: Text('Once')),
-                        DropdownMenuItem(value: 'Intermittent', child: Text('Intermittent')),
-                        DropdownMenuItem(value: 'Constant', child: Text('Constant')),
+                        DropdownMenuItem(
+                          value: 'Intermittent',
+                          child: Text('Intermittent'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Constant',
+                          child: Text('Constant'),
+                        ),
                       ],
                       onChanged: (val) {
                         if (val != null) _setAnswer('$symptom frequency', val);
@@ -542,10 +592,17 @@ class _CheckinScreenState extends State<CheckinScreen> {
                   child: InkWell(
                     onTap: () => _setAnswer(stepId, opt),
                     borderRadius: BorderRadius.circular(14.0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeOut,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 14.0,
+                      ),
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.roseLight : AppColors.paper,
+                        color: isSelected
+                            ? AppColors.roseLight
+                            : AppColors.paper,
                         borderRadius: BorderRadius.circular(14.0),
                         border: Border.all(
                           color: isSelected ? AppColors.rose : AppColors.line,
@@ -554,11 +611,15 @@ class _CheckinScreenState extends State<CheckinScreen> {
                       ),
                       child: Row(
                         children: [
-                          Container(
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.easeOut,
                             width: 28.0,
                             height: 28.0,
                             decoration: BoxDecoration(
-                              color: isSelected ? AppColors.plum : AppColors.ivory,
+                              color: isSelected
+                                  ? AppColors.plum
+                                  : AppColors.ivory,
                               shape: BoxShape.circle,
                             ),
                             child: Center(
@@ -567,7 +628,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
                                 style: GoogleFonts.dmSans(
                                   fontSize: 11.0,
                                   fontWeight: FontWeight.w600,
-                                  color: isSelected ? Colors.white : AppColors.ink,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : AppColors.ink,
                                 ),
                               ),
                             ),
@@ -578,7 +641,9 @@ class _CheckinScreenState extends State<CheckinScreen> {
                               opt,
                               style: GoogleFonts.dmSans(
                                 fontSize: 15.0,
-                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
                                 color: AppColors.ink,
                               ),
                             ),
@@ -606,7 +671,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
                     hintText: 'e.g. a few hours',
                     fillColor: Colors.white,
                     filled: true,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 14.0,
+                      vertical: 12.0,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                       borderSide: const BorderSide(color: AppColors.line),
@@ -621,7 +689,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
         const SizedBox(height: 28.0),
         PrimaryButton(
           label: 'Continue',
-          trailingIcon: const Text('→', style: TextStyle(color: Colors.white, fontSize: 18.0)),
+          trailingIcon: const Text(
+            '→',
+            style: TextStyle(color: Colors.white, fontSize: 18.0),
+          ),
           onPressed: _canContinue() ? _nextStep : null,
         ),
         const SizedBox(height: 20.0),
@@ -652,10 +723,7 @@ class _CheckinScreenState extends State<CheckinScreen> {
         Text(
           'Nothing is saved until you confirm below.',
           textAlign: TextAlign.center,
-          style: GoogleFonts.dmSans(
-            fontSize: 14.0,
-            color: AppColors.muted,
-          ),
+          style: GoogleFonts.dmSans(fontSize: 14.0, color: AppColors.muted),
         ),
         const SizedBox(height: 24.0),
 
@@ -674,11 +742,18 @@ class _CheckinScreenState extends State<CheckinScreen> {
             ),
             subtitle: Text(
               _symptoms.isNotEmpty ? _symptoms.join(', ') : 'None',
-              style: GoogleFonts.dmSans(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.plum),
+              style: GoogleFonts.dmSans(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
+                color: AppColors.plum,
+              ),
             ),
             trailing: Text(
               'Edit',
-              style: GoogleFonts.dmSans(color: AppColors.rose, fontWeight: FontWeight.w600),
+              style: GoogleFonts.dmSans(
+                color: AppColors.rose,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             onTap: () => setState(() => _step = 0),
           ),
@@ -696,15 +771,25 @@ class _CheckinScreenState extends State<CheckinScreen> {
             child: ListTile(
               title: Text(
                 entry.key,
-                style: GoogleFonts.dmSans(fontSize: 11.0, color: AppColors.muted),
+                style: GoogleFonts.dmSans(
+                  fontSize: 11.0,
+                  color: AppColors.muted,
+                ),
               ),
               subtitle: Text(
                 entry.value,
-                style: GoogleFonts.dmSans(fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.plum),
+                style: GoogleFonts.dmSans(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.plum,
+                ),
               ),
               trailing: Text(
                 'Edit',
-                style: GoogleFonts.dmSans(color: AppColors.rose, fontWeight: FontWeight.w600),
+                style: GoogleFonts.dmSans(
+                  color: AppColors.rose,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               onTap: () {
                 if (stepIndex >= 0) {
@@ -740,14 +825,14 @@ class _CheckinScreenState extends State<CheckinScreen> {
         ),
         const SizedBox(height: 24.0),
 
-        SecondaryButton(
-          label: 'Back',
-          onPressed: () => _prevStep(context),
-        ),
+        SecondaryButton(label: 'Back', onPressed: () => _prevStep(context)),
         const SizedBox(height: 10.0),
         PrimaryButton(
           label: 'Confirm & save check-in',
-          trailingIcon: const Text('✓', style: TextStyle(color: Colors.white, fontSize: 16.0)),
+          trailingIcon: const Text(
+            '✓',
+            style: TextStyle(color: Colors.white, fontSize: 16.0),
+          ),
           onPressed: () {
             setState(() {
               _saved = true;
@@ -761,7 +846,8 @@ class _CheckinScreenState extends State<CheckinScreen> {
   }
 
   Widget _buildCompleteContent(BuildContext context) {
-    final hasStress = _answers['mood']?.toLowerCase().contains('stress') ?? false;
+    final hasStress =
+        _answers['mood']?.toLowerCase().contains('stress') ?? false;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -898,7 +984,10 @@ class _CheckinScreenState extends State<CheckinScreen> {
                     ),
                     Text(
                       'Add a local demo reminder',
-                      style: GoogleFonts.dmSans(fontSize: 13.0, color: AppColors.ink),
+                      style: GoogleFonts.dmSans(
+                        fontSize: 13.0,
+                        color: AppColors.ink,
+                      ),
                     ),
                   ],
                 ),
@@ -910,10 +999,18 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         onPressed: () => setState(() => _plan = 'dismissed'),
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: AppColors.plum),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0),
+                          ),
                           padding: const EdgeInsets.symmetric(vertical: 14.0),
                         ),
-                        child: Text('Dismiss', style: GoogleFonts.dmSans(color: AppColors.plum, fontWeight: FontWeight.w600)),
+                        child: Text(
+                          'Dismiss',
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.plum,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 12.0),
@@ -924,10 +1021,17 @@ class _CheckinScreenState extends State<CheckinScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.plum,
                           foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0),
+                          ),
                           padding: const EdgeInsets.symmetric(vertical: 14.0),
                         ),
-                        child: Text('Save plan', style: GoogleFonts.dmSans(fontWeight: FontWeight.w600)),
+                        child: Text(
+                          'Save plan',
+                          style: GoogleFonts.dmSans(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -960,8 +1064,12 @@ class _CheckinScreenState extends State<CheckinScreen> {
         const SizedBox(height: 10.0),
         PrimaryButton(
           label: 'View in health history',
-          trailingIcon: const Text('→', style: TextStyle(color: Colors.white, fontSize: 18.0)),
-          onPressed: () => Navigator.of(context).pushReplacementNamed(AppRoutes.records),
+          trailingIcon: const Text(
+            '→',
+            style: TextStyle(color: Colors.white, fontSize: 18.0),
+          ),
+          onPressed: () =>
+              Navigator.of(context).pushReplacementNamed(AppRoutes.records),
         ),
         const SizedBox(height: 24.0),
       ],
